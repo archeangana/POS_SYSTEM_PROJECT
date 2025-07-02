@@ -15,6 +15,7 @@
       <?php include './layouts/navbar.php'; ?>
       <main class='container text-center'>
             <h1>Home Page </h1>
+            <a href="./index.php?page=login">Already have an account? Login</a>
       </main>
 
       <!-- Optional JavaScript; choose one of the two! -->

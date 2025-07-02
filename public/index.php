@@ -21,6 +21,21 @@ switch($page) {
             $serviceController = new ServicesController();
             $serviceController->runAction($action);
             break;
+      case 'test':
+            include "./controller/TestController.php";
+            $testController = new TestController();
+            $testController->runAction($action);
+            break;
+      case 'login':
+            include "./controller/LoginController.php";
+            $loginController = new LoginController();
+            $loginController->runAction($action);
+            break;
+      case 'signup':
+            include "./controller/RegisterController.php";
+            $signupController = new RegisterController();
+            $signupController->runAction($action);
+      break;
       default:
             include "./controller/HomePageController.php";
 }
