@@ -6,5 +6,5 @@
       }
 ?>
 
-
 <h1>Welcome to Home</h1>
+<a href="index.php?page=login&action=logout">Logout</a>

@@ -4,16 +4,32 @@ $routes = [
       'login' => [
             'controller' => 'AuthController',
             'file' => 'controller/AuthController.php',
-            'action' => 'login'
+            'actions' => [
+                  'index' => 'index',
+                  'login' => 'login',
+                  'logout' => 'logout',
+            ]
+      ],
+      'register' => [
+            'controller' => 'RegisterController',
+            'file' => 'controller/RegisterController.php',
+            'actions' => [
+                  'index' => 'index',
+                  'register' => 'register',
+            ]
       ],
       'home' => [
             'controller' => 'HomeController',
             'file' => 'controller/HomeController.php',
-            'action' => 'index'
+            'actions' => [
+                  'index' => 'index',
+            ]
       ],
       'error' => [
             'controller' => 'ErrorController',
             'file' => 'controller/ErrorController.php',
-            'action' => 'notFound'
+            'actions' => [
+                  'notFound' => 'notFound',
+            ]
       ],
 ];

@@ -4,7 +4,7 @@
       include '../routes/web.php';
 
       $page = $_GET['page'] ?? $_POST['page'] ?? 'home';
-      $actin = $_GET['action'] ?? $_POST['action'] ?? 'index';
+      $action = $_GET['action'] ?? $_POST['action'] ?? 'index';
 
       if (isset($routes[$page])) {
             $route = $routes[$page];
@@ -15,9 +15,10 @@
                   exit();
             }
             $controller = new $controllerClass();
-            if (method_exists($controller, $route['action'] . 'Action')) {
-                  $args = array_values(array_diff_key($_REQUEST, array_flip(['page', 'action'])));
-                  call_user_func_array([$controller, $route['action']. 'Action'], $args);
+            if (method_exists($controller, $route['actions'][$action] . 'Action')) {
+                  $method = $route['actions'][$action] . 'Action';
+                  $args = array_diff_key($_REQUEST, array_flip(['page', 'action']));
+                  call_user_func_array([$controller, $method], [$args]);
             } else {
                   echo "Action not found.";
             }
