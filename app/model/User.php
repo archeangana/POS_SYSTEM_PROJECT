@@ -69,12 +69,13 @@ class User extends Database {
             try {
                   $pdo = $this->connect();
                   if($pdo) {
-                        $query = "INSERT INTO {$this->table} (username, email, password, confirm_password) VALUES (:username, :email, :password, :confirm_password)";
+                        $query = "INSERT INTO {$this->table} (username, email, password, confirm_password) VALUES (:username, :email, :password, :confirm_password, :csrf_token)";
                         $stmt = $pdo->prepare($query);
                         $stmt->bindParam(':username', $data['username']);
                         $stmt->bindParam(':email', $data['email']);
-                        $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_DEFAULT));
-                        $stmt->bindValue(':confirm_password', password_hash($data['confirm_password'], PASSWORD_DEFAULT));
+                        $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+                        $stmt->bindValue(':confirm_password', password_hash($data['confirm_password'], PASSWORD_BCRYPT));
+                        $stmt->bindParam(':csrf_token', $data['csrf_token']);
                         return $stmt->execute();
                   } else {
                         return false;
@@ -84,6 +85,5 @@ class User extends Database {
                   die();
             }
       }
-
 
 }

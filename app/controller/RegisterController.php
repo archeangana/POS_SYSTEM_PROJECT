@@ -13,42 +13,73 @@ class RegisterController extends Controller {
       }
 
       public function registerAction($data) {
-            // Logic for handling user registration
-            // For example, validate input, save user to database, etc.
+            if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                  // If not a POST request, redirect to the registration page
+                  $this->redirect('auth/register');
+                  exit();
+            }
+         
             $errorMessage = [];
             $successMessage = '';
-       
-  
-                  if(
-                        empty($data['username']) || 
-                        empty($data['email']) || 
-                        empty($data['password']) || 
-                        empty($data['confirm_password'])) 
-                  {
-                        $errorMessage[] = "All fields are required.";
-                  } elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                        $errorMessage[] = "Invalid email format.";
-                  } elseif($data['password'] !== $data['confirm_password']) {
-                         $errorMessage[] = "Passwords do not match.";
-                  } elseif(strlen($data['password']) < 6) {
-                        $errorMessage[] = "Password must be at least 6 characters long.";
-                  } else {
-                        try {
-                              $userModel = new User();
-                              $existingUser = $userModel->getUserByEmail($data['email']);
-                              if ($existingUser) {
-                                    $errorMessage[] = "Email already exists.";
-                              }
-                              if($userModel->createUser($data) !== false) {
-                                    $userModel->createUser($data);
+
+            // Sanitize and trim input
+            $username = htmlspecialchars(trim($data['username'] ?? ''));
+            $email = filter_var(trim($data['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+            $password = trim($data['password'] ?? '');
+            $confirm_password = trim($data['confirm_password'] ?? '');
+            $csrf_token = htmlspecialchars(trim($data['csrf_token'] ?? ''));
+
+            if((!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $csrf_token)) {
+                  $errorMessage[] = "Invalid CSRF token.";
+            }
+
+            // Validation checks
+            if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
+                  $errorMessage[] = "All fields are required.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                  $errorMessage[] = "Invalid email format.";
+            } elseif ($password !== $confirm_password) {
+                  $errorMessage[] = "Passwords do not match.";
+            } elseif (strlen($password) < 6) {
+                  $errorMessage[] = "Password must be at least 6 characters long.";
+            }
+
+            if (empty($errorMessage)) {
+                  try {
+                        $userModel = new User();
+
+                        // Check for existing user
+                        if ($userModel->getUserByEmail($email)) {
+                              $errorMessage[] = "Email already exists.";
+                        } else {
+
+                              // Create user
+                              $newUserData = [
+                                    'username' => $username,
+                                    'email' => $email,
+                                    'password' => $password,
+                                    'confrim_password' => $confirm_password,
+                                    'csrf_token' => $csrf_token
+                              ];
+
+                              if ($userModel->createUser($newUserData)) {
+                                    // Optional: regenerate token
+                                    $userModel->createUser($newUserData);
                                     $successMessage = "Registration successful. You can now log in.";
                                     $this->view('auth/login', ['success' => $successMessage]);
                                     exit();
+                              } else {
+                                    $errorMessage[] = "Registration failed. Please try again.";
                               }
-                        } catch (\Exception $e) {
-                              $errorMessage[] = "Database error: " . $e->getMessage();
                         }
+                  } catch (\Exception $e) {
+                        // Log error internally, but do not expose details to the user
+                        error_log("Registration error: " . $e->getMessage());
+                        $errorMessage[] = "An unexpected error occurred. Please try again later.";
                   }
-           
+            }
+
+            // Render view with error
+            $this->view('auth/register', ['errors' => $errorMessage]);
       }
 }

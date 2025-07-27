@@ -1,10 +1,9 @@
 <?php 
-      // session_start();
-      // if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']) {
-      //       header("Location: ../app/views/home.php");
-      //       exit();
-      // }
       include dirname(__DIR__, 2) . '/layouts/header.php';
+      session_start();
+      if(!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+      }
 ?>
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -15,9 +14,19 @@
                     <form method="POST" action="index.php">
                         <input type="hidden" name="page" value="register">
                         <input type="hidden" name="action" value="register">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+                        <?php if(isset($errorMessage) && !empty($errorMessage)) : ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php 
+                                    foreach ($errors as $error) {
+                                        echo htmlspecialchars($error) . '<br>';
+                                    }
+                                ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <input type="text" class="form-control" id="username" name="username">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -35,13 +44,10 @@
                     </form>
                     <div class="mt-3 text-center">
                         <span>Already have an account?</span>
-                        <a href="index.php?page=login" class="link-primary">Login</a>
+                        <a href="?page=login" class="link-primary">Login</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<?php 
-?>

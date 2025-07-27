@@ -1,9 +1,4 @@
 <?php 
-      // session_start();
-      // if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']) {
-      //       header("Location: ../app/views/home.php");
-      //       exit();
-      // }
       include dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 
@@ -14,9 +9,13 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Login</h2>
                     <form method="POST" action="index.php">
-                        <div class="alert alert-success" role="alert">
-                            <?php echo $success ?? 'hello'?>
-                        </div>
+                        <?php if(isset($success) && $success) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?php 
+                                    echo htmlspecialchars($success);
+                                ?>
+                            </div>
+                        <?php endif; ?>
                         <input type="hidden" name="page" value="login">
                         <input type="hidden" name="action" value="login">
                         <div class="mb-3">
@@ -35,7 +34,7 @@
                     </form>
                     <div class="mt-3 text-center">
                         <span>Don't have an account?</span>
-                        <a href="index.php?page=register" class="link-primary">Sign up</a>
+                        <a href="?page=register" class="link-primary">Sign up</a>
                     </div>
                 </div>
             </div>
