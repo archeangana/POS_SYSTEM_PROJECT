@@ -42,4 +42,9 @@ class Controller {
             exit();
       }
 
+      public function redirectToPage($page, $action = 'index')
+      {
+            $this->redirect("index.php?page={$page}&action={$action}");
+      }
+
 }

@@ -1,9 +1,12 @@
 <?php 
-      include dirname(__DIR__, 2) . '/layouts/header.php';
-      session_start();
-      if(!isset($_SESSION['csrf_token'])) {
+        include dirname(__DIR__, 2) . '/layouts/header.php';
+        if(!isset($_SESSION['csrf_token'])) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-      }
+        }
+        if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']) {
+                header("Location: ?page=home");
+                exit();
+        }
 ?>
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -11,11 +14,11 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Sign Up</h2>
-                    <form method="POST" action="index.php">
+                    <form method="POST" action="/">
                         <input type="hidden" name="page" value="register">
                         <input type="hidden" name="action" value="register">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
-                        <?php if(isset($errorMessage) && !empty($errorMessage)) : ?>
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                        <?php if(isset($errors) && !empty($errors)) : ?>
                             <div class="alert alert-danger" role="alert">
                                 <?php 
                                     foreach ($errors as $error) {

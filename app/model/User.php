@@ -34,10 +34,16 @@ class User extends Database {
                         $user = $stmt->fetch();
                         
                         if ($user && password_verify($data['password'], $user['password'])) {
-                              session_start();
-                              $_SESSION['user_id'] = $user['id'];
-                              $_SESSION['user_name'] = $user['name'];
-                              $_SESSION['is_logged_in'] = true;
+
+                              // Optional: regenerate session ID to prevent session fixation attacks
+                              session_regenerate_id(true);
+                              // Return user data for further use
+                              unset($user['password']); // Remove password from user data
+                              unset($user['confirm_password']); // Remove confirm_password from user data
+                              $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Regenerate CSRF token
+                              $_SESSION['is_logged_in'] = true; // Set login status
+                              $_SESSION['user_id'] = $user['id']; // Store user ID in session
+                              $_SESSION['user'] = $user; // Store user data in session
                               return $user;
                         } else {
                               return false;
@@ -69,7 +75,7 @@ class User extends Database {
             try {
                   $pdo = $this->connect();
                   if($pdo) {
-                        $query = "INSERT INTO {$this->table} (username, email, password, confirm_password) VALUES (:username, :email, :password, :confirm_password, :csrf_token)";
+                        $query = "INSERT INTO {$this->table} (username, email, password, confirm_password, csrf_token) VALUES (:username, :email, :password, :confirm_password, :csrf_token)";
                         $stmt = $pdo->prepare($query);
                         $stmt->bindParam(':username', $data['username']);
                         $stmt->bindParam(':email', $data['email']);

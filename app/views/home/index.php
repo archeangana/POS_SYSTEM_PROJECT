@@ -1,10 +1,21 @@
 <?php 
-      session_start();
-      if(!isset($_SESSION['is_logged_in']) ) {
-          header("Location: ?page=login");
-          exit();
-      }
+    if(!isset($_SESSION['is_logged_in']) ) {
+        header("Location: ?page=login");
+        exit();
+    }
+
+    include dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 
-<h1>Welcome to Home</h1>
-<a href="index.php?page=login&action=logout">Logout</a>
+<div class="container mt-5">
+    <?php if (isset($_SESSION['user'])): ?>
+        <h1>Welcome, <?= htmlspecialchars($_SESSION['user']['username']) ?>!</h1>
+    <?php else: ?>
+        <h1>Welcome to the Home Page!</h1>
+    <?php endif; ?>
+    <a href="?page=login&action=logout" class="btn btn-warning">Logout</a>
+</div>
+
+<?php 
+    include dirname(__DIR__, 2) . '/layouts/footer.php';
+?>

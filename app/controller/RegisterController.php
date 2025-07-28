@@ -3,13 +3,14 @@
 namespace App\Controller;
 use App\Core\Controller;
 use App\Model\User;
-use Request;
 
 class RegisterController extends Controller {
 
       public function indexAction() {
             // This method can be used to handle the default action for the RegisterController
-            $this->view('auth/register');
+            $title = 'Register';
+            $data = ['title' => $title];
+            $this->view('auth/register', $data);
       }
 
       public function registerAction($data) {
@@ -27,9 +28,9 @@ class RegisterController extends Controller {
             $email = filter_var(trim($data['email'] ?? ''), FILTER_SANITIZE_EMAIL);
             $password = trim($data['password'] ?? '');
             $confirm_password = trim($data['confirm_password'] ?? '');
-            $csrf_token = htmlspecialchars(trim($data['csrf_token'] ?? ''));
+            $csrf_token = trim($data['csrf_token'] ?? '');
 
-            if((!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $csrf_token)) {
+            if (!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $csrf_token) {
                   $errorMessage[] = "Invalid CSRF token.";
             }
 
@@ -45,25 +46,24 @@ class RegisterController extends Controller {
             }
 
             if (empty($errorMessage)) {
+            
                   try {
                         $userModel = new User();
-
+                           
                         // Check for existing user
                         if ($userModel->getUserByEmail($email)) {
                               $errorMessage[] = "Email already exists.";
+                                 
                         } else {
-
                               // Create user
                               $newUserData = [
                                     'username' => $username,
                                     'email' => $email,
                                     'password' => $password,
-                                    'confrim_password' => $confirm_password,
+                                    'confirm_password' => $confirm_password,
                                     'csrf_token' => $csrf_token
                               ];
-
-                              if ($userModel->createUser($newUserData)) {
-                                    // Optional: regenerate token
+                              if ($userModel) {
                                     $userModel->createUser($newUserData);
                                     $successMessage = "Registration successful. You can now log in.";
                                     $this->view('auth/login', ['success' => $successMessage]);

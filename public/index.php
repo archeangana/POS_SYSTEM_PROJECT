@@ -1,7 +1,9 @@
 <?php 
 
       require_once '../vendor/autoload.php';
+      session_start();
       include '../routes/web.php';
+
       $page = $_GET['page'] ?? $_POST['page'] ?? 'home';
       $action = $_GET['action'] ?? $_POST['action'] ?? 'index';
 
