@@ -13,7 +13,6 @@
     <?php else: ?>
         <h1>Welcome to the Home Page!</h1>
     <?php endif; ?>
-    <a href="?page=login&action=logout" class="btn btn-warning">Logout</a>
 </div>
 
 <?php 

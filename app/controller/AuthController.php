@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Core\Controller;
 use App\Model\User;
+use App\Core\Helpers\Flash;
 
 class AuthController extends Controller {
      

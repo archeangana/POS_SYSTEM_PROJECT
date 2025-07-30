@@ -3,7 +3,9 @@
       require_once '../vendor/autoload.php';
       session_start();
       include '../routes/web.php';
+      use App\Core\Helpers\Flash;
 
+      
       $page = $_GET['page'] ?? $_POST['page'] ?? 'home';
       $action = $_GET['action'] ?? $_POST['action'] ?? 'index';
 
@@ -29,6 +31,7 @@
             $errorController->notFound();
       }
 
-      
+
+
 
 

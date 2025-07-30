@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Core\Controller;
 use App\Model\User;
+use App\Core\Helpers\Flash;
 
 class RegisterController extends Controller {
 
@@ -21,7 +22,6 @@ class RegisterController extends Controller {
             }
          
             $errorMessage = [];
-            $successMessage = '';
 
             // Sanitize and trim input
             $username = htmlspecialchars(trim($data['username'] ?? ''));
@@ -65,8 +65,8 @@ class RegisterController extends Controller {
                               ];
                               if ($userModel) {
                                     $userModel->createUser($newUserData);
-                                    $successMessage = "Registration successful. You can now log in.";
-                                    $this->view('auth/login', ['success' => $successMessage]);
+                                    Flash::set('success', 'Register Successfully. You can now login.');
+                                    $this->redirectToPage('login');
                                     exit();
                               } else {
                                     $errorMessage[] = "Registration failed. Please try again.";

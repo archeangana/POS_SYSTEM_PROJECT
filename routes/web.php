@@ -10,6 +10,18 @@ $routes = [
                   'logout' => 'logout',
             ]
       ],
+      'admin' => [
+            'controller' => 'AdminController',
+            'file' => 'controller/AdminController.php',
+            'actions' => [
+                  'index' => 'index',
+                  'createAdmin' => 'createAdmin',
+                  'update' => 'update',
+                  'delete' => 'delete',
+                  'admin' => 'admin',
+                  'addAdmin' => 'addAdmin',
+            ]
+      ],
       'register' => [
             'controller' => 'RegisterController',
             'file' => 'controller/RegisterController.php',

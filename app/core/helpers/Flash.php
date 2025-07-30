@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Core\Helpers;
+
 class Flash {
     public static function set($key, $message) {
         $_SESSION['flash'][$key] = $message;

@@ -1,5 +1,6 @@
 <?php 
       include dirname(__DIR__, 2) . '/layouts/header.php';
+     
 ?>
 
 <div class="container mt-5">
@@ -9,13 +10,7 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Login</h2>
                     <form method="POST" action="index.php">
-                        <?php if(isset($success) && $success) : ?>
-                            <div class="alert alert-success" role="alert">
-                                <?php 
-                                    echo htmlspecialchars($success);
-                                ?>
-                            </div>
-                        <?php endif; ?>
+                        <?php include dirname(__DIR__) . '/components/notifications/flash.php';?>
                         <input type="hidden" name="page" value="login">
                         <input type="hidden" name="action" value="login">
                         <div class="mb-3">
