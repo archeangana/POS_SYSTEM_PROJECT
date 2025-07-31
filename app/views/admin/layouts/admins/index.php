@@ -1,4 +1,5 @@
 <div class="container-fluid px-4 mt-5">
+      <?php include dirname(__DIR__, 4) . '/components/notifications/flash.php' ;?>
       <div class="card">
             <div class="card-header">
                   <h4 class="mb-0">
@@ -18,11 +19,23 @@
                                     </tr>
                               </thead>
                               <tbody>
-                                    <tr>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                    </tr>
+                                    <?php 
+                                          if(!empty($admins)) : 
+                                                foreach($admins as $admin) : 
+                                          ?>
+                                          <tr>
+                                                <td><?php echo $admin['id']?></td>
+                                                <td><?php echo $admin['name']?></td>
+                                                <td><?php echo $admin['email']?></td>
+                                                <td>
+                                                      <a href="?page=admin&action=delete" class="btn btn-danger">Delete</a>
+                                                      <button class="btn btn-warning">Update</button>
+                                                      <button class="btn btn-info">Details</button>
+                                                </td>
+                                          </tr>
+                                          <?php endforeach;
+                                                endif; 
+                                          ?>
                               </tbody>
                         </table>
                   </div>

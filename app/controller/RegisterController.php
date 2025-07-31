@@ -53,7 +53,6 @@ class RegisterController extends Controller {
                         // Check for existing user
                         if ($userModel->getUserByEmail($email)) {
                               $errorMessage[] = "Email already exists.";
-                                 
                         } else {
                               // Create user
                               $newUserData = [

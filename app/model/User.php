@@ -11,7 +11,7 @@ class User extends Database {
             try {
                   $pdo = $this->connect();
                   if($pdo) {
-                         $query = "SELECT * FROM {$this->table}";
+                        $query = "SELECT * FROM {$this->table}";
                         $stmt = $pdo->prepare($query);
                         $stmt = $pdo->execute();
                         return $stmt->fetchAll();
@@ -20,7 +20,6 @@ class User extends Database {
                   echo "Error: " . $e->getMessage();
                   die();
             }
-          
       }
 
       public function loginUser($data) {
