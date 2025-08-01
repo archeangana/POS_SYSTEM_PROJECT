@@ -16,6 +16,7 @@ $routes = [
             'actions' => [
                   'index' => 'index',
                   'createAdmin' => 'createAdmin',
+                  'edit' => 'edit',
                   'update' => 'update',
                   'delete' => 'delete',
                   'admin' => 'admin',

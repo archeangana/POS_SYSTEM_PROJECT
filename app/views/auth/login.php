@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Login</h2>
                     <form method="POST" action="index.php">
-                        <?php include dirname(__DIR__) . '/components/notifications/flash.php';?>
+                        <?php include dirname(__DIR__, 2) . '/components/notifications/flash.php';?>
                         <input type="hidden" name="page" value="login">
                         <input type="hidden" name="action" value="login">
                         <div class="mb-3">

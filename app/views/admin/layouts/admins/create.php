@@ -25,7 +25,7 @@
                               </div>
                               <div class="col-md-6 mb-3">
                                     <label for="phone" class="mb-2">Phone <span class="text-danger">*</span></label>   
-                                    <input id="phone" type="number" name="phone" required class="form-control">
+                                    <input id="phone" type="text" name="phone" required class="form-control">
                               </div>
                               <div class="col-md-3 mb-3">
                                     <label for="is_ban" class="mb-2">Is Ban</label>   

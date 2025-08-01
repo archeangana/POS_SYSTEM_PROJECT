@@ -22,20 +22,19 @@ class AdminController extends Controller {
 
       public function addAdminAction($data) {
             if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-
                   $errorMessage = [];
 
                   // Sanitize Input
-                  $name = htmlspecialchars(trim($data['name'] ?? ''));
+                  $name = htmlspecialchars(trim($data['name'] ?? ''), ENT_QUOTES, 'UTF-8');
                   $password = trim($data['password'] ?? '');
                   $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
                   $phone = trim($data['phone'] ?? '');
-                  $is_ban = $data['is_ban'] ? 1 : 0;
+                  $is_ban = isset($data['is_ban']) ? 1 : 0;
 
                   // Validate Input
                   if(empty($name) &&  empty($password) && empty($email) && empty($phone)) {
-                        $errorMessage[] = 'All fiels are required.';
-                  } elseif(!filter_var($email, FILTER_SANITIZE_EMAIL)) {
+                        $errorMessage[] = 'All fields are required.';
+                  } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         $errorMessage[] = 'Invalid Email Format.';
                   } elseif(empty($password)) {
                         $errorMessage[] = 'Password is Required.';
@@ -76,12 +75,81 @@ class AdminController extends Controller {
             $this->view('admin/index');
       }
 
-      public function updateAction() {
-
+      public function editAction($data) {
+            $id = $data['id'] ?? '';
+            if(isset($id)) {
+                if(!empty($id)) {
+                        $admin = new Admin();
+                        $adminData = $admin->getadminById($id);
+                        $this->view('admin/index', ['data' => $adminData]);
+                }  
+            }
       }
 
-      public function deleteAction($id) {
-            
+      public function updateAction($data) {
+
+            if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($data['submit'])) {
+                  $errorMessage = [];
+                  // Sanitize Input
+                  $name = htmlspecialchars(trim($data['name'] ?? ''), ENT_QUOTES, 'UTF-8');
+                  $password = trim($data['password'] ?? '');
+                  $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
+                  $phone = trim($data['phone'] ?? '');
+                  $is_ban = isset($data['is_ban']) ? 1 : 0;
+
+                  // Validate Input
+                  if(empty($name) &&  empty($password) && empty($email) && empty($phone)) {
+                        $errorMessage[] = 'All fields are required.';
+                  } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $errorMessage[] = 'Invalid Email Format.';
+                  } elseif(empty($password)) {
+                        $errorMessage[] = 'Password is Required.';
+                  } elseif(strlen($password) < 6) {
+                        $errorMessage[] = 'Password must be atleast 6 characters.';
+                  } elseif(empty($phone)) {
+                        $errorMessage[] = 'Phone is Required.';
+                  }
+
+                  if(empty($errorMessage)) {
+
+                         try {
+                              $adminModel = new Admin();
+                              $newAdminData = [
+                                    'id' => $data['id'],
+                                    'name' => $name,
+                                    'password' => $password,
+                                    'email' => $email,
+                                    'phone' => $phone,
+                                    'is_ban' => $is_ban
+                              ];
+                              $adminModel->updateAdmin($newAdminData);
+                              Flash::set('success', 'Admin Successfully Updated!');
+                              $this->redirectToPage('admin', 'admin');
+                              exit();
+                        } catch(\Exception $e) {
+                              error_log("Registration error: " . $e->getMessage());
+                              $errorMessage[] = "An unexpected error occurred. Please try again later.";
+                        }
+                  }
+            } else {
+                  Flash::set('error', "Failed to update admin info.");
+                  $this->redirectToPage('admin', 'edit');
+            }
+      }
+
+      public function deleteAction($data) {
+            $id = $data['id'] ?? '';
+            if(isset($id)) {
+                  if(!empty($id)) {
+                        $adminModel = new Admin();
+                        $adminModel->deleteAdmin($id);
+                        Flash::set('success', 'Admin Successfully Deleted');
+                        $this->redirectToPage('admin', 'admin');
+                        exit();
+                  }
+            } else {
+                  return false;
+            }
       }
 
 }

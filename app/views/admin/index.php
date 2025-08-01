@@ -9,7 +9,12 @@
                   case 'createAdmin':
                         include 'layouts/admins/create.php';
                         break;
-                  case '':
+                  case 'edit':
+                        include 'layouts/admins/edit.php';
+                        break;
+                  // case 'update':
+                  //       include 'layouts/admins/index.php';
+                  //       break;
                   default: 
                         include 'layouts/dashboard/index.php';
             }
