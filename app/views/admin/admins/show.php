@@ -1,11 +1,12 @@
+
 <div class="container-fluid px-4 mt-5">
-    <?php include dirname(__DIR__, 4) . '/components/notifications/flash.php'; ?>
+    <?php include dirname(__DIR__, 3) . '/components/notifications/flash.php'; ?>
     
     <div class="card">
         <div class="card-header">
             <h4 class="mb-0 d-flex justify-content-between align-items-center">
                 Admins/Staff
-                <a href="?page=admin&action=createAdmin" class="btn btn-primary">Add Admin</a>
+                <a href="?page=admin&action=create" class="btn btn-primary">Add Admin</a>
             </h4>
         </div>
 

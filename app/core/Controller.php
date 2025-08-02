@@ -19,18 +19,15 @@ class Controller {
 
       protected function getBaseUrl() {
             $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
-            $host = $_SERVER['HTTP_HOST'];
-            $scriptName = $_SERVER['SCRIPT_NAME'];
+            $host = $_SERVER['HTTP_HOST']; // Get the Domain
+            $scriptName = $_SERVER['SCRIPT_NAME']; // Get the current file
 
             // Remove index.php or similar from the script path
-            $scriptDir = str_replace(basename($scriptName), '', $scriptName);
-
-            // $protocol = 'http';
-            // $host = 'localhost';
-            // $scriptName = '/myproject/public/index.php';
+            $scriptDir = str_replace(basename($scriptName), '', $scriptName); // Removing the index.php file in the URI
+            // Result
             // $scriptDir = '/myproject/public/';
 
-            return "{$protocol}://{$host}{$scriptDir}";
+            return "{$protocol}://{$host}{$scriptDir}"; // http://domain/myproject/public
       }
       
       public function redirect($path = '') {

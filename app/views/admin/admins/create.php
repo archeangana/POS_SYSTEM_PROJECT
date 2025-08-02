@@ -3,13 +3,13 @@
             <div class="card-header">
                   <h4 class="mb-0">
                         Add Admin
-                        <a href="?page=admin&action=admin" class="btn btn-primary float-end">Back</a>
+                        <a href="?page=admin&action=show" class="btn btn-primary float-end">Back</a>
                   </h4>
             </div>
             <div class="card-body">
                   <form action="index.php" method="POST">
                         <input type="hidden" name="page" value="admin">
-                        <input type="hidden" name="action" value="addAdmin">
+                        <input type="hidden" name="action" value="add">
                         <div class="row">
                               <div class="col-md-12 mb-3">
                                     <label for="name" class="mb-2">Name <span class="text-danger">*</span></label>   

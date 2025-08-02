@@ -12,15 +12,15 @@ class AdminController extends Controller {
             $this->view('admin/index');
       }
 
-      public function adminAction() {
+      public function showAction() {
             $admins = (new Admin())->getAllAdmins();
             if(empty($admins)) {
                   $admins = [];
             }
-            $this->view('admin/index', ['admins' => $admins]);
+            $this->view('admin/admins/index', ['admins' => $admins]);
       }
 
-      public function addAdminAction($data) {
+      public function addAction($data) {
             if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                   $errorMessage = [];
 
@@ -71,8 +71,8 @@ class AdminController extends Controller {
             }
       }
 
-      public function createAdminAction() {
-            $this->view('admin/index');
+      public function createAction() {
+            $this->view('admin/admins/index');
       }
 
       public function editAction($data) {
@@ -81,7 +81,7 @@ class AdminController extends Controller {
                 if(!empty($id)) {
                         $admin = new Admin();
                         $adminData = $admin->getadminById($id);
-                        $this->view('admin/index', ['data' => $adminData]);
+                        $this->view('admin/admins/index', ['data' => $adminData]);
                 }  
             }
       }
@@ -124,7 +124,7 @@ class AdminController extends Controller {
                               ];
                               $adminModel->updateAdmin($newAdminData);
                               Flash::set('success', 'Admin Successfully Updated!');
-                              $this->redirectToPage('admin', 'admin');
+                              $this->redirectToPage('admin/admins', 'admin');
                               exit();
                         } catch(\Exception $e) {
                               error_log("Registration error: " . $e->getMessage());
@@ -144,7 +144,7 @@ class AdminController extends Controller {
                         $adminModel = new Admin();
                         $adminModel->deleteAdmin($id);
                         Flash::set('success', 'Admin Successfully Deleted');
-                        $this->redirectToPage('admin', 'admin');
+                        $this->redirectToPage('admin/admins', 'show');
                         exit();
                   }
             } else {

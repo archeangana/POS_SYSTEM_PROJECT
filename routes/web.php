@@ -10,17 +10,30 @@ $routes = [
                   'logout' => 'logout',
             ]
       ],
+      'category' => [
+            'controller' => 'CategoryController',
+            'file' => 'controller/CategoryController.php',
+            'actions' => [
+                  'index' => 'index',
+                  'create' => 'create',
+                  'edit' => 'edit',
+                  'update' => 'update',
+                  'delete' => 'delete',
+                  'show' => 'show',
+                  'add' => 'add',
+            ]
+      ],
       'admin' => [
             'controller' => 'AdminController',
             'file' => 'controller/AdminController.php',
             'actions' => [
                   'index' => 'index',
-                  'createAdmin' => 'createAdmin',
+                  'create' => 'create',
                   'edit' => 'edit',
                   'update' => 'update',
                   'delete' => 'delete',
-                  'admin' => 'admin',
-                  'addAdmin' => 'addAdmin',
+                  'show' => 'show',
+                  'add' => 'add',
             ]
       ],
       'register' => [
