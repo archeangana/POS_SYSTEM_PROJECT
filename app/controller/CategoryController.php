@@ -16,9 +16,10 @@ class CategoryController extends Controller {
 
             $categoryModel = new Category();
             $data = $categoryModel->getAll();
-            if($data) {
-                  $this->view('admin/category/index', ['data' => $data]);
+            if(empty($data)) {
+                  $data = [];
             }
+            $this->view('admin/category/index', ['data' => $data]);
       }
       
       public function createAction() {
@@ -144,7 +145,7 @@ class CategoryController extends Controller {
                   $categoryModel = new Category();
                   $categoryModel->deleteCategory($id);
                   Flash::set('success', 'Deleted Successfully!');
-                  $this->redirectToPage('category', 'show');
+                  $this->redirectToPage('category', 'shw');
                   exit();
             } else {
                   Flash::set('error', 'Failed to Delete');

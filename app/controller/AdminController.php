@@ -144,7 +144,7 @@ class AdminController extends Controller {
                         $adminModel = new Admin();
                         $adminModel->deleteAdmin($id);
                         Flash::set('success', 'Admin Successfully Deleted');
-                        $this->redirectToPage('admin/admins', 'show');
+                        $this->redirectToPage('admin', 'show');
                         exit();
                   }
             } else {

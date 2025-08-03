@@ -21,25 +21,31 @@
                                                 <th>Action</th>
                                                 </tr>
                                           </thead>
-                                          <tbody>
-                                                <?php foreach ($data as $item) : ?>
-                                                      <?php if (!is_array($item)) continue; ?>
-                                                      <tr>
+                                         <tbody>
+                                                <?php if (!empty($data)) : ?>
+                                                      <?php foreach ($data as $item) : ?>
+                                                            <tr>
                                                             <td><?php echo $item['id']; ?></td>
                                                             <td><?php echo htmlspecialchars($item['name']); ?></td>
                                                             <td><?php echo htmlspecialchars($item['description']); ?></td>
                                                             <td>
                                                                   <span class="badge <?php echo $item['status'] == 1 ? 'bg-primary' : 'bg-danger' ?>">
-                                                                  <?php echo $item['status'] == 1 ? 'Active' : 'Inactive' ?>
+                                                                        <?php echo $item['status'] == 1 ? 'Active' : 'Inactive' ?>
                                                                   </span>
                                                             </td>
                                                             <td>
                                                                   <a href="?page=category&action=delete&id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                                                                   <a href="?page=category&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                                             </td>
+                                                            </tr>
+                                                      <?php endforeach; ?>
+                                                <?php else: ?>
+                                                      <tr>
+                                                            <td colspan="5" class="text-center">No Data found.</td>
                                                       </tr>
-                                                <?php endforeach; ?>
-                                          </tbody>
+                                                <?php endif; ?>
+                                                </tbody>
+
                                     </table>
                               </div>
                   </div>

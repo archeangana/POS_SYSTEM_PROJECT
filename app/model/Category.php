@@ -73,7 +73,7 @@ class Category extends Database {
       public function deleteCategory($id) {
             try {
                   $pdo = $this->connect();
-                  $query = "DELETE FROM {$this->table} WHERE id=:id LIMIT 1";
+                  $query = "DELETE FROM {$this->table} WHERE id=:id";
                   $stmt = $pdo->prepare($query);
                   $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                   return $stmt->execute();

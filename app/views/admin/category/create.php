@@ -16,13 +16,13 @@
                                     <label for="name" class="mb-2">Name <span class="text-danger">*</span></label>   
                                     <input id="name" type="text" name="name" required class="form-control">
                               </div>
-                              <div class="col-md-6 mb-3">
+                              <div class="col-md-12 mb-3">
                                     <label for="text" class="mb-2">Description <span class="text-danger">*</span></label>   
-                                    <input id="text" type="text" name="description" required class="form-control">
+                                    <textarea id="text" type="text" name="description" required class="form-control" style="resize:none;" rows='8'></textarea>
                               </div>
-                              <div class="col-md-3 mb-3">
+                              <div class="col-md-2 mb-3">
                                     <label for="is_ban" class="mb-2">Status</label>   
-                                    <select name="status" id="" class="col-md-3 form-control">
+                                    <select name="status" id="" class="col-md-3 form-select">
                                           <option value="active" class="form-control">Active</option>
                                           <option value="inactive" class="form-control">Inactive</option>
                                     </select>
