@@ -22,12 +22,12 @@
                                                 </tr>
                                           </thead>
                                           <tbody>
-                                                <?php if(!empty($data)) :?>
+                                                <?php if(!empty($data)) : ?>
                                                       <?php foreach ($data as $item) : ?>
                                                             <tr>
                                                                   <td><?php echo $item['id']; ?></td>
                                                                   <td>
-                                                                        <img src="assets/img/<?php echo $item['image']?>" alt="<?php echo 'Image of product' . $item['name']?>" style="width:50px; height: 50px; aspect-ratio: 1/1">
+                                                                        <img src="/<?php echo htmlspecialchars($item['image'])?>" alt="<?php echo 'Image of product' . $item['name']?>" style="width:50px; height: 50px; aspect-ratio: 1/1">
                                                                   </td>
                                                                   <td><?php echo htmlspecialchars($item['name']); ?></td>
                                                                   <td>

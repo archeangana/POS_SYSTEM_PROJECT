@@ -14,7 +14,7 @@
                         <div class="row">
                               <div class="col-md-2 mb-3">
                                     <label for="category_id" class="mb-2">Select Category <span class="text-danger">*</span></label>   
-                                    <select id="category_id" type="text" name="category_id" required class="form-select">
+                                    <select id="category_id" name="category_id" required class="form-select">
                                           <option value="">-- Select Category --</option>
                                           <?php if(!empty($data)): ?>
                                                 <?php foreach($data as $item): ?>
