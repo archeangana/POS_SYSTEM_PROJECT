@@ -203,8 +203,8 @@ class ProductController extends Controller {
                               'description' => $description,
                               'price' => $price,
                               'quantity' => $quantity,
-                              'status' => $status,
                               'image' => $imagePath,
+                              'status' => $status,
                         ];
 
                         $productModel->update($newData);

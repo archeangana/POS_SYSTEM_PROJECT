@@ -45,7 +45,7 @@ class Product extends Database {
       public function update($data) {
             try {
                   $pdo = $this->connect();
-                  $query = "UPDATE {$this->table} SET category_id=:category_id, name=:name, description=:description, price=:price, quantity=:quantity, status=:status WHERE id=:id";
+                  $query = "UPDATE {$this->table} SET category_id=:category_id, name=:name, description=:description, price=:price, quantity=:quantity, image=:image, status=:status WHERE id=:id";
                   $stmt = $pdo->prepare($query);
                   $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
                   $stmt->bindParam(':category_id', $data['category_id'], PDO::PARAM_INT);
@@ -53,6 +53,7 @@ class Product extends Database {
                   $stmt->bindParam(':description', $data['description'], PDO::PARAM_STR);
                   $stmt->bindParam(':price', $data['price'], PDO::PARAM_INT);
                   $stmt->bindParam(':quantity', $data['quantity'], PDO::PARAM_INT);
+                  $stmt->bindParam(':image', $data['image'], PDO::PARAM_STR);
                   $stmt->bindParam(':status', $data['status'], PDO::PARAM_BOOL);
                   return $stmt->execute();
                 

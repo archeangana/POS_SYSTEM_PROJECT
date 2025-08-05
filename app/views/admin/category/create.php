@@ -21,7 +21,7 @@
                                     <textarea id="text" type="text" name="description" required class="form-control" style="resize:none;" rows='8'></textarea>
                               </div>
                               <div class="col-md-2 mb-3">
-                                    <label for="is_ban" class="mb-2">Status</label>   
+                                    <label for="status" class="mb-2">Status</label>   
                                     <select name="status" id="" class="col-md-3 form-select">
                                           <option value="active" class="form-control">Active</option>
                                           <option value="inactive" class="form-control">Inactive</option>

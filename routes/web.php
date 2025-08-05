@@ -10,6 +10,31 @@ $routes = [
                   'logout' => 'logout',
             ]
       ],
+      'order' => [
+            'controller' => 'OrderController',
+            'file' => 'controller/OrderController.php',
+            'actions' => [
+                  'create' => 'create',
+                  'edit' => 'edit',
+                  'update' => 'update',
+                  'delete' => 'delete',
+                  'show' => 'show',
+                  'add' => 'add', 
+            ]
+      ],
+      'customer' => [
+            'controller' => 'CustomerController',
+            'file' => 'controller/CustomerController.php',
+            'actions' => [
+                  'index' => 'index',
+                  'create' => 'create',
+                  'edit' => 'edit',
+                  'update' => 'update',
+                  'delete' => 'delete',
+                  'show' => 'show',
+                  'add' => 'add', 
+            ]
+      ],
       'product' => [
             'controller' => 'ProductController',
             'file' => 'controller/ProductController.php',

@@ -4,27 +4,26 @@
             <h1 class="mt-4">Dashboard</h1>
             <ol class="breadcrumb mb-4">
                   <li class="breadcrumb-item active">Dashboard</li>
-                  <!-- <form action="index.php" method="POST" enctype="multipart/form-data">
-                        <input hidden name="page" value="admin">
-                        <input type="file" name="image">
-                        <input type="submit" value="submit">
-                  </form> -->
+                 
                   <?php 
-                        // var_dump($_FILES['image'] ?? '');
+                      // Test
+                        // $array = [
+                        //       'products' => [
+                        //             'name' => 'test',
+                        //             'quantity' => 2,
+                        //       ]
+                        // ];
+                        // $newData = [
+                        //       'name' => 'dress',
+                        //       'quantity' => 10
+                        // ];
+                        // array_push($array['products'], $newData);
+                        // array_push($array['products'], $newData);
+                        // array_push($array['products'], $newData);
+                        // var_dump($array);
 
-                        // if(!empty($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
-                        //       $file = $_FILES['image'];
-
-                        //       if($file['error'] !== UPLOAD_ERR_OK) {
-                        //             echo $error = 'Failed to upload';
-                        //       } else {
-                        //             // echo $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE;
-                        //             $filename = basename($file['name'] ?? '');
-                        //             $fileExtention = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                        //             $fileTmp = $file['tmp_name'];
-                        //             echo $fileExtention . '<br>';
-                        //             echo mime_content_type($fileTmp);
-                        //       }
+                        // foreach($array['products'] as $key => $value) {
+                        //       echo $key;
                         // }
                   
                   ?>
