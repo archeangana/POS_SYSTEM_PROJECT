@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Core\Controller;
 use App\Model\Order;
 use App\Model\Product;
+use App\Model\Customer;
 use App\Core\Helpers\Flash;
 
 class OrderController extends Controller {
@@ -12,14 +13,21 @@ class OrderController extends Controller {
             $this->view('admin/orders/index');
       }
 
-      public function createAction() {
-            $productsData = (new Product())->getAll();
-            if(empty($productsData)) {
-                  $productsData = [];
-            }
-            $this->view('admin/orders/index', ['products' => $productsData]);
-      }
+      public function jsonResponse($status, $type, $message, $data = []) {
+            if (ob_get_length()) ob_clean();
+            header('Content-Type: application/json');
 
+            $response = [
+                  'status' => $status,
+                  'status_type' => $type,
+                  'message' => $message,
+                  'data' => $data // Custom Data
+            ];
+
+            echo json_encode($response);
+            exit;
+      }
+      
       public function addAction($data) {
             if(!isset($_SESSION['productOrderIds'])) {
                   $_SESSION['productOrderIds'] = [];
@@ -27,6 +35,34 @@ class OrderController extends Controller {
             if(!isset($_SESSION['productOrders'])) {
                   $_SESSION['productOrders'] = [];
             }
+            if(isset($_POST['productIncDec'])) {
+                  ob_start();
+                  header('Content-Type: application/json');
+                  $productId = trim($_POST['product_id']);
+                  $quantity = trim($_POST['quantity']);
+
+                  $flag = false;
+                  foreach($_SESSION['productOrders'] as $key => $item) {
+                        if($item['product_id'] == $productId) {
+                              $flag = true;
+                              $_SESSION['productOrders'][$key]['quantity'] = $quantity;
+
+                              $price = $_SESSION['productOrders'][$key]['price'];
+                              $itemTotal = $price * $quantity;
+                              if($flag) {
+                                    $this->jsonResponse(200, 'success', 'Quantity Updated', [
+                                          'quantity' => $quantity,
+                                          'item_total' => number_format($itemTotal, 0),
+                                          'product_id' => $productId
+                                    ]);
+                              } else {
+                                    $this->jsonResponse(301, 'error', 'Failed Quantity Update');
+                              }
+                              return;
+                        } 
+                  }
+            }
+
             if(isset($data['submit'])) {
                   // Sanitize
                   $productId = trim($data['product_id']) ?? null;
@@ -79,8 +115,65 @@ class OrderController extends Controller {
             }
       }
 
+      public function createAction() {
+            $productsData = (new Product())->getAll();
+            if(empty($productsData)) {
+                  $productsData = [];
+            }
+            $this->view('admin/orders/index', ['products' => $productsData]);
+      }
+
+
+      public function deleteAction($data) {
+            if (!isset($data['index']) || !is_numeric($data['index'])) {
+                  Flash::set('error', "Invalid index.");
+                  $this->redirectToPage('order', 'create');
+                  return;
+            }
+
+            $index = (int)$data['index']; // now properly assigning the actual value
+
+            if (isset($_SESSION['productOrders'][$index]) && isset($_SESSION['productOrderIds'][$index])) {
+                  unset($_SESSION['productOrders'][$index]);
+                  unset($_SESSION['productOrderIds'][$index]);
+
+                  // Reindex arrays to prevent index gaps
+                  $_SESSION['productOrders'] = array_values($_SESSION['productOrders']);
+                  $_SESSION['productOrderIds'] = array_values($_SESSION['productOrderIds']);
+
+                  Flash::set('success', "Order Removed.");
+            } else {
+                  Flash::set('error', "Delete Order Failed");
+            }
+
+            $this->redirectToPage('order', 'create');
+      }
+
       public function getAllProducts() {
 
+      }
+
+      public function paymentAction($data) {
+            ob_start();
+            if(!empty($data)) {
+                  if(isset($data['submit'])) {
+                        // Sanitize
+                        $payment_mode = htmlspecialchars(trim($data['payment_mode'])); 
+                        $customer_phone = trim($data['customer_phone']); 
+                        
+                        // Check if customer exists
+                        $customerData = (new Customer())->getCustomerByPhone($customer_phone);
+                  
+                        if ($customerData) {
+                              $_SESSION['invoice_no'] = uniqid('INV-', true);
+                              $_SESSION['payment_mode'] = $payment_mode;
+                              $_SESSION['customer_phone'] = $customer_phone;
+                              $this->jsonResponse(200, 'success', 'Customer Found', ['name' => $customerData['name']]);
+                        } else {
+                              $this->jsonResponse(404, 'warning', 'Customer Not Found');
+                        }
+                  }
+            }
       }
 
 }

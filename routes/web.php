@@ -20,6 +20,7 @@ $routes = [
                   'delete' => 'delete',
                   'show' => 'show',
                   'add' => 'add', 
+                  'payment' => 'payment', 
             ]
       ],
       'customer' => [

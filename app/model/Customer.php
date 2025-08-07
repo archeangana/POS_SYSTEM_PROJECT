@@ -68,6 +68,21 @@ class Customer extends Database {
             }
       }
 
+      public function getCustomerByPhone($phone) {
+            try {
+                  $pdo = $this->connect();
+                  $query = "SELECT * FROM {$this->table} WHERE phone=:phone LIMIT 1";
+                  $stmt = $pdo->prepare($query);
+                  $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
+                  $stmt->execute();
+                  $result = $stmt->fetch();
+                  return $result ? $result : [];
+            } catch(PDOException $e) {
+                  error_log('Failed to create customer' . $e->getMessage());
+                  return [];
+            }
+      }
+
       public function update($data) {
             try {
                   $pdo = $this->connect();
