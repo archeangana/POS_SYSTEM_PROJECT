@@ -1,5 +1,34 @@
 <div class="container-fluid px-4 mt-5">
       <?php include dirname(__DIR__, 3) . '/components/notifications/flash.php'; ?>
+      <!-- Modal -->
+      <div class="modal fade" id="addCustomerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                  <div class="modal-content">
+                        <div class="modal-header">
+                              <h5 class="modal-title">Add Customer</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                              <form id="addCustomerForm" method="POST" action="?page=customer&action=add">
+                                    <input type="hidden" name="status" value="active">
+                                    <label for="" class="mb-2">Customer Name</label>
+                                    <input type="text" name="name" class="form-control mb-3" placeholder="e.g. John Smith" />
+
+                                    <label for="" class="mb-2">Email</label>
+                                    <input type="email" name="email" class="form-control mb-3" placeholder="e.g. example@gmail.com" />
+
+                                    <label for="" class="mb-2">Phone</label>
+                                    <input type="text" name="phone" class="form-control mb-3" placeholder="e.g. 09123456789" />
+
+                                    <div class="text-end mt-3">
+                                          <button type="submit" class="btn btn-primary w-25">Save</button>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </div>
+      <!-- Modal Close -->
       <div class="card shadow-sm">
             <div class="card-header">
                   <h4 class="mb-0">
@@ -92,7 +121,7 @@
                   <!-- Payment Section -->
                    <hr/>
                   <div class="row mt-4">
-                        <div class="errors alert alert-danger alert-dismissible fade show" style="font-size: 15px;" role="alert" hidden></div>
+                        <!-- <div class="errors alert alert-danger alert-dismissible fade show" style="font-size: 15px;" role="alert" hidden></div> -->
                         <div class="col-md-2">
                               <label for="" class="mb-2">Select Payment Method</label>
                               <select name="" class="form-select" id="payment_mode" required>

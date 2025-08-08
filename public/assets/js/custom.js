@@ -84,26 +84,44 @@ document.addEventListener("DOMContentLoaded", function () {
             // Validation
             if (!customerPhone.value && !paymentMode.value) {
                   errors.push('Payment Method is Required', 'Customer Phone is Required');
+                  Swal.fire({
+                        title: "Warning!",
+                        text: "Select Payment Method, Customer Phone is missing.",
+                        icon: "warning"
+                  });
+                  return;
             } else {
                   if (!customerPhone.value) {
                         errors.push('Customer Phone is Required');
+                        Swal.fire({
+                              title: "Warning!",
+                              text: "Customer Phone is requred",
+                              icon: "warning"
+                        });
+                        return;
                   }
                   if (!paymentMode.value) {
                         errors.push('Payment Method is Required');
+                        Swal.fire({
+                              title: "Warning!",
+                              text: "Payment Method is Requiredo.",
+                              icon: "warning"
+                        });
+                        return;
                   }
             }
 
             // Displaying Errors to the UI Frontend
-            if (errors.length > 0) {
-                  const errorMessage = document.querySelector('.errors');
-                  errorMessage.removeAttribute('hidden');
-                  errorMessage.innerHTML = ''; 
+            // if (errors.length > 0) {
+            //       const errorMessage = document.querySelector('.errors');
+            //       errorMessage.removeAttribute('hidden');
+            //       errorMessage.innerHTML = ''; 
 
-                  errors.forEach((err) => {
-                        errorMessage.innerHTML += err + "<br/>";
-                  });
-                  return;
-            }
+            //       errors.forEach((err) => {
+            //             errorMessage.innerHTML += err + "<br/>";
+            //       });
+            //       return;
+            // }
 
             const res = await fetch('?page=order&action=payment', {
                   method: 'POST',
@@ -116,14 +134,44 @@ document.addEventListener("DOMContentLoaded", function () {
                         submit: 'true'
                   })
             });
-          
             const data = await res.json();
             if (data.status === 200) {
-                  console.log('✅ Success:', data);
+                  // console.log('✅ Success:', data);
+                  Swal.fire({
+                        title: "Payment Successful",
+                        text: "The payment has been processed successfully.",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                  });
+            } else if(data.status === 404) {
+                  Swal.fire({
+                        title: "Customer Not Found",
+                        text: "Would you like to add a new customer?",
+                        icon: "error",
+                        showCancelButton: true,
+                        confirmButtonText: "Add Customer",
+                        cancelButtonText: "Cancel"
+                  }).then((result) => {
+                        if (result.isConfirmed) {
+                              // Open the modal (you must have this modal defined in your HTML)
+                              // const customerModal = document.getElementById('addCustomerModal');
+                              // if (customerModal) {
+                              //       customerModal.removeAttribute('hidden'); // or use Bootstrap's modal trigger
+                              // // If you're using Bootstrap modal:
+                              // // new bootstrap.Modal(customerModal).show();
+                              // }
+                              const customerModal = new bootstrap.Modal(document.getElementById('addCustomerModal'));
+                              customerModal.show();
+                        }
+                  });
             } else {
-                  console.log('❌ Failure:', data);
+                  Swal.fire({
+                        title: "Server Error",
+                        text: "contact IT Department",
+                        icon: "error",
+                        showCancelButton: true,
+                        confirmButtonText: "Close",
+                  })
             }
-        
       }
-
 })
