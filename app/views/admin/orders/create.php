@@ -9,21 +9,21 @@
                               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                              <form id="addCustomerForm" method="POST" action="?page=customer&action=add">
+                              <div id="addCustomerForm">
                                     <input type="hidden" name="status" value="active">
                                     <label for="" class="mb-2">Customer Name</label>
-                                    <input type="text" name="name" class="form-control mb-3" placeholder="e.g. John Smith" />
+                                    <input type="text" name="name" class="form-control mb-3 customer_name" placeholder="e.g. John Smith" />
 
                                     <label for="" class="mb-2">Email</label>
-                                    <input type="email" name="email" class="form-control mb-3" placeholder="e.g. example@gmail.com" />
+                                    <input  type="email" name="email" class="form-control mb-3 customer_email" placeholder="e.g. example@gmail.com" />
 
                                     <label for="" class="mb-2">Phone</label>
-                                    <input type="text" name="phone" class="form-control mb-3" placeholder="e.g. 09123456789" />
+                                    <input id="phone_no" type="text" name="phone" class="form-control mb-3 customer_phone" placeholder="e.g. 09123456789" />
 
                                     <div class="text-end mt-3">
-                                          <button type="submit" class="btn btn-primary w-25">Save</button>
+                                          <button type="button" class="btn btn-primary w-25" id="addCustomerBtn">Save</button>
                                     </div>
-                              </form>
+                              </div>
                         </div>
                   </div>
             </div>

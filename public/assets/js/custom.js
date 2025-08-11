@@ -137,12 +137,15 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await res.json();
             if (data.status === 200) {
                   // console.log('✅ Success:', data);
+                  customerPhone.value = '';
+                  paymentMode.value = '';
                   Swal.fire({
                         title: "Payment Successful",
                         text: "The payment has been processed successfully.",
                         icon: "success",
                         confirmButtonText: "OK"
                   });
+
             } else if(data.status === 404) {
                   Swal.fire({
                         title: "Customer Not Found",
@@ -153,15 +156,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         cancelButtonText: "Cancel"
                   }).then((result) => {
                         if (result.isConfirmed) {
-                              // Open the modal (you must have this modal defined in your HTML)
-                              // const customerModal = document.getElementById('addCustomerModal');
-                              // if (customerModal) {
-                              //       customerModal.removeAttribute('hidden'); // or use Bootstrap's modal trigger
-                              // // If you're using Bootstrap modal:
-                              // // new bootstrap.Modal(customerModal).show();
-                              // }
-                              const customerModal = new bootstrap.Modal(document.getElementById('addCustomerModal'));
-                              customerModal.show();
+                     
+                              const newCustomerPhoneInput = document.getElementById('phone_no');
+
+                              if (newCustomerPhoneInput) {
+                                    const phoneValue = customerPhone.value.trim();
+                                    newCustomerPhoneInput.value = phoneValue;
+
+                                    // Show the modal
+                                    const customerModal = new bootstrap.Modal(document.getElementById('addCustomerModal'));
+                                    customerModal.show();
+                              } else {
+                                    console.error("One or both input elements were not found in the DOM.");
+                              }
                         }
                   });
             } else {
@@ -172,6 +179,78 @@ document.addEventListener("DOMContentLoaded", function () {
                         showCancelButton: true,
                         confirmButtonText: "Close",
                   })
+            }
+      }
+
+      document.getElementById('addCustomerBtn')?.addEventListener('click', handleAddCustomerModal);
+
+      async function handleAddCustomerModal() {
+            const customerName = document.querySelector('.customer_name');
+            const customerEmail = document.querySelector('.customer_email');
+            const customerPhone = document.querySelector('.customer_phone');
+
+            if(customerName.value == '' && customerEmail.value == '') {
+                  Swal.fire({
+                        title: "Warning!",
+                        text: "All fields are required!",
+                        icon: "warning",
+                        confirmButtonText: "okay",
+                  });
+            } else {
+                  const response = await fetch('?page=customer&action=add', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                              name: customerName.value,
+                              email: customerEmail.value,
+                              phone: customerPhone.value,
+                              status: 'active',
+                              submitted: 1
+                        })
+                  });
+
+                  const contentType = response.headers.get('content-type');
+
+                  if (contentType && contentType.includes('application/json')) {
+                        const res = await response.json();
+
+                        if (res.status === 200) {
+                              Swal.fire({
+                                    title: "Successfully Added",
+                                    text: "Added new customer successfully.",
+                                    icon: "success",
+                                    confirmButtonText: "close",
+                              }).then((result) => {
+                                    if (result.isConfirmed) {
+                                          // Get the already-open modal instance
+                                          const modalEl = document.getElementById('addCustomerModal');
+                                          const modalInstance = bootstrap.Modal.getInstance(modalEl);
+
+                                          if (modalInstance) {
+                                                modalInstance.hide();
+                                          }
+                                    } 
+                              });
+                        } else {
+                              Swal.fire({
+                                    title: "Error",
+                                    text: res.message || "Something went wrong.",
+                                    icon: "error",
+                                    confirmButtonText: "Okay",
+                              })
+                        }
+                  } else {
+                        const text = await response.text();
+                        console.error("❌ Non-JSON response:", text);
+                        Swal.fire({
+                              title: "Server Error",
+                              text: "Unexpected server response. Check console for details.",
+                              icon: "error",
+                              confirmButtonText: "Okay",
+                        });
+                  }
             }
       }
 })
