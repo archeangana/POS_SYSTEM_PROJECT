@@ -14,6 +14,9 @@
             case 'create':
                 include 'create.php';
                 break;
+            case 'orderSummary':
+                include 'order-summary.php';
+                break;
             default:
                 echo 'No page found';
         }

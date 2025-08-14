@@ -22,7 +22,9 @@
                   $args = array_diff_key($_REQUEST, array_flip(['page', 'action']));
                   call_user_func_array([$controller, $method], [$args]);
             } else {
-                  echo "Action not found.";
+                  include_once '../app/controller/ErrorController.php';
+                  $errorController = new \App\Controller\ErrorController();
+                  $errorController->notFound();
             }
       } else {
             include_once '../app/controller/ErrorController.php';

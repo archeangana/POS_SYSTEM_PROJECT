@@ -163,16 +163,60 @@ class OrderController extends Controller {
                         
                         // Check if customer exists
                         $customerData = (new Customer())->getCustomerByPhone($customer_phone);
-                  
-                        if ($customerData) {
-                              $_SESSION['invoice_no'] = uniqid('INV-', true);
-                              $_SESSION['payment_mode'] = $payment_mode;
-                              $_SESSION['customer_phone'] = $customer_phone;
-                              $this->jsonResponse(200, 'success', 'Customer Found', ['name' => $customerData['name']]);
+                        if(isset($_SESSION['productOrders'])) {
+                              if ($customerData) {
+                                    $_SESSION['invoice_no'] = uniqid('INV-');
+                                    $_SESSION['payment_mode'] = $payment_mode;
+                                    $_SESSION['customer_phone'] = $customer_phone;
+                                    $this->jsonResponse(200, 'success', 'Customer Found', ['name' => $customerData['name']]);
+                              } else {
+                                    $this->jsonResponse(404, 'warning', 'Customer Not Found');
+                              }
                         } else {
-                              $this->jsonResponse(404, 'warning', 'Customer Not Found');
+                              $this->jsonResponse(401, 'warning', 'Select an order first');
                         }
+                       
                   }
+            }
+      }
+
+      public function orderSummaryAction() {
+            if(isset($_SESSION['customer_phone'])) {
+                  $customer_phone = trim($_SESSION['customer_phone']);
+                  $payment_mode = htmlspecialchars(trim($_SESSION['payment_mode']));
+                  $invoice_no = trim($_SESSION['invoice_no']);
+                  $product_orders = $_SESSION['productOrders'];
+
+                  $grandTotal = 0;
+                  $totalQuantity = 0;
+
+                  foreach ($product_orders as $order) {
+                        // Ensure numeric safety
+                        $price = isset($order['price']) ? (float)$order['price'] : 0;
+                        $qty = isset($order['quantity']) ? (int)$order['quantity'] : 0;
+
+                        $totalPrice = $price * $qty;
+                        $grandTotal += $totalPrice;
+                        $totalQuantity += $qty;
+
+                        // Store total price back if needed for the view
+                        $order['total_price'] = $totalPrice;
+                  }
+
+                  $customer_data = (new Customer())->getCustomerByPhone($customer_phone);
+                  
+                  if($customer_data) {
+                        $this->view('admin/orders/index',  [
+                              'data'           => $customer_data,
+                              'invoice_no'     => $invoice_no,
+                              'payment_method' => $payment_mode,
+                              'orders'         => $product_orders,
+                              'grand_total'    => $grandTotal,
+                              'total_quantity' => $totalQuantity
+                        ]);
+                  }
+            } else {
+                  return [];
             }
       }
 

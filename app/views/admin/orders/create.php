@@ -11,17 +11,18 @@
                         <div class="modal-body">
                               <div id="addCustomerForm">
                                     <input type="hidden" name="status" value="active">
-                                    <label for="" class="mb-2">Customer Name</label>
-                                    <input type="text" name="name" class="form-control mb-3 customer_name" placeholder="e.g. John Smith" />
+                                    <label for="name" class="mb-2">Customer Name</label>
+                                    <input id="name" type="text" name="name" class="form-control mb-3 customer_name" placeholder="e.g. John Smith" />
 
-                                    <label for="" class="mb-2">Email</label>
-                                    <input  type="email" name="email" class="form-control mb-3 customer_email" placeholder="e.g. example@gmail.com" />
+                                    <label for="email" class="mb-2">Email</label>
+                                    <input  id="email" type="email" name="email" class="form-control mb-3 customer_email" placeholder="e.g. example@gmail.com" />
 
-                                    <label for="" class="mb-2">Phone</label>
+                                    <label for="phone_no" class="mb-2">Phone</label>
                                     <input id="phone_no" type="text" name="phone" class="form-control mb-3 customer_phone" placeholder="e.g. 09123456789" />
 
-                                    <div class="text-end mt-3">
-                                          <button type="button" class="btn btn-primary w-25" id="addCustomerBtn">Save</button>
+                                    <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary" id="addCustomerBtn">Save</button>
                                     </div>
                               </div>
                         </div>
@@ -135,7 +136,7 @@
                               <input id="customer_phone" type="text" class="form-control" required placeholder="e.g. 09123456789">
                         </div>
                         <div class="col-md-4 align-self-end">
-                              <button class="btn btn-warning" id="placeOrderBtn">Proceed to place order</button>
+                              <button type="button" class="btn btn-warning" id="placeOrderBtn">Proceed to place order</button>
                         </div>
                   </div>
             </div>

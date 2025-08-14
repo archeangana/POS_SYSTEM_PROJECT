@@ -139,12 +139,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   // console.log('✅ Success:', data);
                   customerPhone.value = '';
                   paymentMode.value = '';
-                  Swal.fire({
-                        title: "Payment Successful",
-                        text: "The payment has been processed successfully.",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                  });
+                  window.location.href = '?page=order&action=orderSummary';
+                  // Swal.fire({
+                  //       title: "Payment Successful",
+                  //       text: "The payment has been processed successfully.",
+                  //       icon: "success",
+                  //       confirmButtonText: "OK"
+                  // });
 
             } else if(data.status === 404) {
                   Swal.fire({
@@ -173,11 +174,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   });
             } else {
                   Swal.fire({
-                        title: "Server Error",
-                        text: "contact IT Department",
+                        title: "No Products Selected",
+                        text: "Please make an order first.",
                         icon: "error",
-                        showCancelButton: true,
-                        confirmButtonText: "Close",
+                        confirmButtonText: "Okay",
                   })
             }
       }
