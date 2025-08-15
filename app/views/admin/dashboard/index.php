@@ -1,5 +1,10 @@
-<?php // include '../layouts/header.php'; ?>
- 
+<?php 
+    if(!isset($_SESSION['is_logged_in']) ) {
+        header("Location: ?page=login");
+        exit();
+    }
+?>
+
       <div class="container-fluid px-4">
             <h1 class="mt-4">Dashboard</h1>
             <ol class="breadcrumb mb-4">

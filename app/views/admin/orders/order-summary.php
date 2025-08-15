@@ -90,6 +90,11 @@
                                             <td colspan="4" class="text-end">Grand Total:</td>
                                             <td class="text-end">₱<?= number_format($grandTotal, 2); ?></td>
                                         </tr>
+                                        <tr>
+                                            <td colspan="5" align="right">
+                                                <button type="button" id="create-order-btn" class="btn btn-primary w-auto">Create Order</button>
+                                            </td>
+                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -101,7 +106,6 @@
                         <?php endif; ?>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

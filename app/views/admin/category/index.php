@@ -1,4 +1,10 @@
-<?php include dirname(__DIR__) . '/layouts/header.php'; ?>
+<?php 
+    if(!isset($_SESSION['is_logged_in']) ) {
+        header("Location: ?page=login");
+        exit();
+    }
+    include dirname(__DIR__) . '/layouts/header.php'; 
+?>
     
     <?php 
     

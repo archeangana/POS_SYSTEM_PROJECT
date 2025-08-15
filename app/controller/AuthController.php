@@ -42,9 +42,10 @@ class AuthController extends Controller {
 
                         if ($user) {
                               // Redirect to home page after successful login
-                              $_SESSION['user'] = $user;
+                              $_SESSION['logged_in_user'] = $user;
+                              $_SESSION['is_logged_in'] = true;
                            
-                              $this->redirectToPage('home');
+                              $this->redirectToPage('admin');
                               exit();
                         } else {
                               $errorMessage[] = "Invalid email or password.";
@@ -53,10 +54,11 @@ class AuthController extends Controller {
                         $errorMessage[] = "An error occurred while logging in: " . $e->getMessage();
                   }
             }
-            
-            $this->view('auth/login', [
-                  'errors' => $errorMessage,
-            ]);
+            foreach($errorMessage as $error) {
+                  Flash::set('error', $error);
+            }
+            $title = 'Login';
+            $this->view('auth/login', ['title' => $title]);
             exit();
       }
 

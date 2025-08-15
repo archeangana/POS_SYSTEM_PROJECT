@@ -24,7 +24,7 @@ class OrderController extends Controller {
                   'data' => $data // Custom Data
             ];
 
-            echo json_encode($response);
+            echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             exit;
       }
       
@@ -180,7 +180,8 @@ class OrderController extends Controller {
             }
       }
 
-      public function orderSummaryAction() {
+      public function orderSummaryAction(array $data) {
+
             if(isset($_SESSION['customer_phone'])) {
                   $customer_phone = trim($_SESSION['customer_phone']);
                   $payment_mode = htmlspecialchars(trim($_SESSION['payment_mode']));
@@ -214,10 +215,67 @@ class OrderController extends Controller {
                               'grand_total'    => $grandTotal,
                               'total_quantity' => $totalQuantity
                         ]);
-                  }
+                  }          
+             
             } else {
                   return [];
             }
+      }
+
+      public function createOrderAction(array $data)
+      {
+            if (ob_get_length()) ob_clean();
+
+            // Validate request
+            if (isset($data['submit_order'])) {
+
+                  $customer_phone = trim($_SESSION['customer_phone']);
+                  $payment_mode = htmlspecialchars(trim($_SESSION['payment_mode']));
+                  $invoice_no = trim($_SESSION['invoice_no']);
+                  $product_orders = $_SESSION['productOrders'];
+                  $order_placed_by_id = $_SESSION['logged_in_user']['id'];
+
+                  $grandTotal = 0;
+                  $totalQuantity = 0;
+
+                  foreach ($product_orders as $order) {
+                        // Ensure numeric safety
+                        $price = isset($order['price']) ? (float)$order['price'] : 0;
+                        $qty = isset($order['quantity']) ? (int)$order['quantity'] : 0;
+
+                        $totalPrice = $price * $qty;
+                        $grandTotal += $totalPrice;
+                        $totalQuantity += $qty;
+
+                        // Store total price back if needed for the view
+                        $order['total_price'] = $totalPrice;
+                  }
+
+                  $customer_data = (new Customer())->getCustomerByPhone($customer_phone);
+
+                  if($customer_data) {
+
+                        $orderData = [
+                              'customer_id' => $customer_data['id'],
+                              'tracking_no' => rand(11111, 99999),
+                              'invoice_no' => $invoice_no,
+                              'total_amount' => $grandTotal,
+                              'order_timestamp' => date('Y-m-d H:i:s'),
+                              'order_status' => 'booked',
+                              'payment_method' => $payment_mode,
+                              'order_placed_by_id' => $order_placed_by_id
+                        ];
+
+                        return $this->jsonResponse(200, 'success', 'Order created successfully', [
+                              'order_id' => rand(1000, 9999), // Example order ID
+                              'timestamp' => date('Y-m-d H:i:s')
+                        ]);
+                  } else {
+                        return $this->jsonResponse(500, 'error', 'Server Error');
+                  }
+            }
+
+            return $this->jsonResponse(400, 'error', 'Create Order Failed');
       }
 
 }

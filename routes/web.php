@@ -21,7 +21,8 @@ $routes = [
                   'show' => 'show',
                   'add' => 'add', 
                   'payment' => 'payment', 
-                  'orderSummary' => 'orderSummary'
+                  'orderSummary' => 'orderSummary',
+                  'createOrder' => 'createOrder'
             ]
       ],
       'customer' => [

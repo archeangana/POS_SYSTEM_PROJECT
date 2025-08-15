@@ -127,8 +127,11 @@
                               <label for="" class="mb-2">Select Payment Method</label>
                               <select name="" class="form-select" id="payment_mode" required>
                                     <option value="">-- Select Payment --</option>
-                                    <option value="cash">Cash Payment</option>
-                                    <option value="online">Online Payment</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="credit_card">Credit Card</option>
+                                    <option value="debit_card">Debit Card</option>
+                                    <option value="e_wallet">E - Wallet</option>
+                                    <option value="bank_transfer">Bank Transfer</option>
                               </select>
                         </div>
                         <div class="col-md-2">

@@ -182,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
       }
 
+      // Add Customer function
       document.getElementById('addCustomerBtn')?.addEventListener('click', handleAddCustomerModal);
 
       async function handleAddCustomerModal() {
@@ -251,6 +252,39 @@ document.addEventListener("DOMContentLoaded", function () {
                               confirmButtonText: "Okay",
                         });
                   }
+            }
+      }
+
+      // Create Order Function
+      // order_create
+      const createOrderBtn = document.getElementById('create-order-btn');
+      createOrderBtn.addEventListener('click', handleCreateOrder);
+
+      async function handleCreateOrder() {
+            const dataSent = await fetch('?page=order&action=createOrder', {
+                  method: 'POST',
+                  headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                  },
+                  body: new URLSearchParams({ submit_order: 'true' }) // Send as string
+            });
+
+            const contentType = dataSent.headers.get('content-type');
+
+            if (contentType && contentType.includes('application/json')) {
+                  const res = await dataSent.json();
+                  if(res.status == 200) {
+                        console.log('Success');
+                  } else {
+                        console.log('Error');
+                  }
+            } else {
+                  Swal.fire({
+                        title: "Create Order Failed",
+                        text: "Something went wrong.",
+                        icon: "error",
+                        confirmButtonText: "Okay",
+                  });
             }
       }
 })
