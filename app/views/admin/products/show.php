@@ -17,6 +17,7 @@
                                                 <th>ID</th>
                                                 <th>Image</th>
                                                 <th>Name</th>
+                                                <th>Stock</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                                 </tr>
@@ -31,10 +32,14 @@
                                                                   </td>
                                                                   <td><?php echo htmlspecialchars($item['name']); ?></td>
                                                                   <td>
+                                                                        <?php echo $item['quantity'] . 'pcs'?>
+                                                                  </td>
+                                                                  <td>
                                                                         <span class="badge <?php echo $item['status'] == 1 ? 'bg-primary' : 'bg-danger' ?>">
                                                                         <?php echo $item['status'] == 1 ? 'Active' : 'Inactive' ?>
                                                                         </span>
                                                                   </td>
+                                                                
                                                                   <td>
                                                                         <a href="?page=product&action=delete&id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                                                                         <a href="?page=product&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-warning btn-sm">Edit</a>

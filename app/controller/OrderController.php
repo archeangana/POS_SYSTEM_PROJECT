@@ -13,20 +13,26 @@ class OrderController extends Controller {
             $this->view('admin/orders/index');
       }
 
-      public function jsonResponse($status, $type, $message, $data = []) {
-            if (ob_get_length()) ob_clean();
-            header('Content-Type: application/json');
+     public function jsonResponse($status, $type, $message, $data = []) {
+            if (ob_get_length()) ob_clean(); // Clear any accidental output
+
+            // Correct Content-Type header
+            header('Content-Type: application/json; charset=UTF-8');
 
             $response = [
-                  'status' => $status,
-                  'status_type' => $type,
-                  'message' => $message,
-                  'data' => $data // Custom Data
+                  'status'       => $status,
+                  'status_type'  => $type,
+                  'message'      => $message,
+                  'data'         => $data
             ];
 
-            echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            echo json_encode(
+                  $response,
+                  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            );
             exit;
       }
+
       
       public function addAction($data) {
             if(!isset($_SESSION['productOrderIds'])) {
@@ -166,7 +172,7 @@ class OrderController extends Controller {
                         if(isset($_SESSION['productOrders'])) {
                               if ($customerData) {
                                     $_SESSION['invoice_no'] = uniqid('INV-');
-                                    $_SESSION['payment_mode'] = $payment_mode;
+                                    $_SESSION['payment_method'] = $payment_mode;
                                     $_SESSION['customer_phone'] = $customer_phone;
                                     $this->jsonResponse(200, 'success', 'Customer Found', ['name' => $customerData['name']]);
                               } else {
@@ -184,7 +190,7 @@ class OrderController extends Controller {
 
             if(isset($_SESSION['customer_phone'])) {
                   $customer_phone = trim($_SESSION['customer_phone']);
-                  $payment_mode = htmlspecialchars(trim($_SESSION['payment_mode']));
+                  $payment_method = htmlspecialchars(trim($_SESSION['payment_method']));
                   $invoice_no = trim($_SESSION['invoice_no']);
                   $product_orders = $_SESSION['productOrders'];
 
@@ -210,7 +216,7 @@ class OrderController extends Controller {
                         $this->view('admin/orders/index',  [
                               'data'           => $customer_data,
                               'invoice_no'     => $invoice_no,
-                              'payment_method' => $payment_mode,
+                              'payment_method' => $payment_method,
                               'orders'         => $product_orders,
                               'grand_total'    => $grandTotal,
                               'total_quantity' => $totalQuantity
@@ -222,60 +228,57 @@ class OrderController extends Controller {
             }
       }
 
-      public function createOrderAction(array $data)
-      {
+      public function createOrderAction(array $data){
             if (ob_get_length()) ob_clean();
-
             // Validate request
             if (isset($data['submit_order'])) {
-
+                  
                   $customer_phone = trim($_SESSION['customer_phone']);
-                  $payment_mode = htmlspecialchars(trim($_SESSION['payment_mode']));
+                  $payment_method = htmlspecialchars(trim($_SESSION['payment_method']));
                   $invoice_no = trim($_SESSION['invoice_no']);
                   $product_orders = $_SESSION['productOrders'];
-                  $order_placed_by_id = $_SESSION['logged_in_user']['id'];
+                  $order_placed_by_id = $_SESSION['user_id'];
 
                   $grandTotal = 0;
                   $totalQuantity = 0;
 
-                  foreach ($product_orders as $order) {
-                        // Ensure numeric safety
+                  foreach ($product_orders as &$order) {   // <-- note the &
                         $price = isset($order['price']) ? (float)$order['price'] : 0;
-                        $qty = isset($order['quantity']) ? (int)$order['quantity'] : 0;
+                        $qty   = isset($order['quantity']) ? (int)$order['quantity'] : 0;
 
                         $totalPrice = $price * $qty;
                         $grandTotal += $totalPrice;
                         $totalQuantity += $qty;
 
-                        // Store total price back if needed for the view
+                        $order['price'] = $price;           // ensure key exists
+                        $order['quantity'] = $qty;          // ensure key exists
                         $order['total_price'] = $totalPrice;
                   }
+                  unset($order);
 
                   $customer_data = (new Customer())->getCustomerByPhone($customer_phone);
 
                   if($customer_data) {
-
                         $orderData = [
-                              'customer_id' => $customer_data['id'],
-                              'tracking_no' => rand(11111, 99999),
-                              'invoice_no' => $invoice_no,
-                              'total_amount' => $grandTotal,
-                              'order_timestamp' => date('Y-m-d H:i:s'),
-                              'order_status' => 'booked',
-                              'payment_method' => $payment_mode,
-                              'order_placed_by_id' => $order_placed_by_id
+                              'customer_id'    => $customer_data['id'],
+                              'tracking_no'    => 'TRK-' . date('Ymd') . strtoupper(bin2hex(random_bytes(6))),
+                              'invoice_no'     => $invoice_no,
+                              'total_amount'   => $grandTotal,
+                              'order_status'   => 'pending', // or "booked" if you add it to ENUM
+                              'payment_method' => $payment_method,
+                              'created_by'     => $order_placed_by_id,
                         ];
 
-                        return $this->jsonResponse(200, 'success', 'Order created successfully', [
-                              'order_id' => rand(1000, 9999), // Example order ID
-                              'timestamp' => date('Y-m-d H:i:s')
-                        ]);
+                        $orderModel = new Order();
+                        $orderModel->create($orderData, $product_orders);
+
+                        return $this->jsonResponse(200, 'success', 'Order created successfully');
                   } else {
-                        return $this->jsonResponse(500, 'error', 'Server Error');
+                        return $this->jsonResponse(400, 'error', 'Customer Data not found');
                   }
             }
 
-            return $this->jsonResponse(400, 'error', 'Create Order Failed');
+            return $this->jsonResponse(500, 'error', 'Server Error');
       }
 
 }

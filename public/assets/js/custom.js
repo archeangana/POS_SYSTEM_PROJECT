@@ -273,17 +273,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (contentType && contentType.includes('application/json')) {
                   const res = await dataSent.json();
-                  if(res.status == 200) {
-                        console.log('Success');
+
+                  if (res.status == 200) {
+
+                        Swal.fire({
+                              title: "Order Created!",
+                              text: "Your order has been successfully processed. You can check it in the orders list.",
+                              icon: "success",
+                              confirmButtonText: "View Orders",
+                              showCloseButton: true, // Adds the ❌ X button on top-right
+                              // timer: 3000, // Auto-close after 3s (optional)
+                              // timerProgressBar: true
+                        }).then((result) => {
+                              if (result.isConfirmed) {
+                                    window.location.href = '?page=order&action=orderList';
+                              }
+                        });
                   } else {
-                        console.log('Error');
+                        Swal.fire({
+                              title: "Order Failed",
+                              text: res.message ?? "An unexpected error occurred. Please try again later.",
+                              icon: "error",
+                              confirmButtonText: "Retry 🔄",
+                              showCloseButton: true
+                        });
                   }
             } else {
                   Swal.fire({
-                        title: "Create Order Failed",
-                        text: "Something went wrong.",
+                        title: "Request Failed",
+                        text: "We couldn't connect to the server. Please check your internet and try again.",
                         icon: "error",
                         confirmButtonText: "Okay",
+                        showCloseButton: true
                   });
             }
       }

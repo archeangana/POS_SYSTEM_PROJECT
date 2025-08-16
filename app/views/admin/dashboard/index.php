@@ -1,8 +1,5 @@
 <?php 
-    if(!isset($_SESSION['is_logged_in']) ) {
-        header("Location: ?page=login");
-        exit();
-    }
+
 ?>
 
       <div class="container-fluid px-4">

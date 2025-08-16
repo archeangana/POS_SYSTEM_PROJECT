@@ -92,7 +92,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="5" align="right">
-                                                <button type="button" id="create-order-btn" class="btn btn-primary w-auto">Create Order</button>
+                                                <button type="button" id="create-order-btn" class="btn btn-primary">Create Order</button>
                                             </td>
                                         </tr>
                                     </tfoot>

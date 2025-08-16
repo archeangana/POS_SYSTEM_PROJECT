@@ -40,11 +40,7 @@ class AuthController extends Controller {
                         $userModel = new User();
                         $user = $userModel->loginUser(['email' => $email, 'password' => $password]);
 
-                        if ($user) {
-                              // Redirect to home page after successful login
-                              $_SESSION['logged_in_user'] = $user;
-                              $_SESSION['is_logged_in'] = true;
-                           
+                        if ($user) {       
                               $this->redirectToPage('admin');
                               exit();
                         } else {
