@@ -261,24 +261,46 @@ class OrderController extends Controller {
                   if($customer_data) {
                         $orderData = [
                               'customer_id'    => $customer_data['id'],
-                              'tracking_no'    => 'TRK-' . date('Ymd') . strtoupper(bin2hex(random_bytes(6))),
+                              'tracking_no'    => 'TRK-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(6))),
                               'invoice_no'     => $invoice_no,
                               'total_amount'   => $grandTotal,
                               'order_status'   => 'pending', // or "booked" if you add it to ENUM
                               'payment_method' => $payment_method,
-                              'created_by'     => $order_placed_by_id,
+                              'created_by'     => $order_placed_by_id ?? null,
                         ];
 
                         $orderModel = new Order();
-                        $orderModel->create($orderData, $product_orders);
+                        $order_tracking = $orderModel->create($orderData, $product_orders);
+                        if($order_tracking) {
+                              // Deleting the session data after successful order creation
+                              unset($_SESSION['productOrders']);
+                              unset($_SESSION['productOrderIds']);
+                              unset($_SESSION['customer_phone']);
+                              unset($_SESSION['payment_method']);
+                              unset($_SESSION['invoice_no']);
 
-                        return $this->jsonResponse(200, 'success', 'Order created successfully');
+                              return $this->jsonResponse(200, 'success', 'Order created successfully', $order_tracking);
+                        } else {
+                              return $this->jsonResponse(500, 'error', 'Failed to create order', $order_tracking);
+                        }
                   } else {
                         return $this->jsonResponse(400, 'error', 'Customer Data not found');
                   }
             }
 
             return $this->jsonResponse(500, 'error', 'Server Error');
+      }
+
+      public function ordersAction() {
+
+            // Select all from orders table
+
+            $orderModel = new Order();
+            $orders = $orderModel->getAllOrders();
+            if(empty($orders)) {
+                  $orders = [];
+            }
+            $this->view('admin/orders/index', ['orders' => $orders]);
       }
 
 }

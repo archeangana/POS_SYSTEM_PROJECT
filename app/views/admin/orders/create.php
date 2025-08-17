@@ -64,84 +64,89 @@
                   </form>
             </div>    
       </div>
-      
-      <div class="card mt-4 shadow-sm">
-            <div class="card-header">
-                  <h5>Orders</h5>
-            </div>
-            <div class="card-body" id="productWrapper">
-                  <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="productContent">
-                              <thead>
-                                    <th>Id</th>
-                                    <th>Product Name</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total Price</th>
-                                    <th>Action</th>
-                              </thead>
-                              <tbody>
-                                    <?php if(empty($_SESSION['productOrders'])) {
-                                          unset($_SESSION['productOrders']);
-                                          unset($_SESSION['productOrderIds']);
-                                    } ?>
-                                    <?php if(!empty($_SESSION['productOrders'])) :?>
-                                          <?php $orders = $_SESSION['productOrders']?>
-                                          <?php foreach($orders as $key => $order) :?>
-                                                <div class="alert danger errorMessage" hidden='true'></div>
-                                                <tr>
-                                                      <td><?= $key + 1?></td>
-                                                      <td><?= $order['name']?></td>
-                                                      <td><?= $order['price']?></td>
-                                                      <td>
-                                                            <div class="input-group qty-wrapper">
-                                                                  <input type="hidden" value="<?= $order['product_id']?>" class="productId">
-                                                                  <button id="" class="input-group-text decrement">-</button>
-                                                                  <input type="text" value="<?= $order['quantity']?>" class="qty quantityInput" style="width: 50px !important;padding: 6px 3px;text-align: center; border: 1px solid #cfb1b1; outline: 0; margin-right: 1px;">
-                                                                  <button id="" class="input-group-text increment">+</button>
-                                                            </div>
-                                                      </td>
-                                                      <td>
-                                                            <span class="itemTotal" data-product-id="<?= $order['product_id'] ?>">
-                                                                  <?= number_format($order['price'] * $order['quantity'], 0); ?>
-                                                            </span>
-                                                      </td>
-                                                      <td>
-                                                            <a href="?page=order&action=delete&index=<?= $key ?>" class="btn btn-danger">Remove</a href="">
-                                                      </td>
-                                                </tr>
-                                          <?php endforeach;?>
-                                          <?php else:?>
-                                                <tr>
-                                                      <td colspan="6" class="text-center">No Orders Added Yet</td>
-                                                </tr>
-                                    <?php endif;?>
-                              </tbody>
-                        </table>
+      <?php if(!empty($_SESSION['productOrders'])) :?>
+            <div class="card mt-4 shadow-sm">
+                  <div class="card-header">
+                        <h5>Products</h5>
                   </div>
-                  <!-- Payment Section -->
-                   <hr/>
-                  <div class="row mt-4">
-                        <!-- <div class="errors alert alert-danger alert-dismissible fade show" style="font-size: 15px;" role="alert" hidden></div> -->
-                        <div class="col-md-2">
-                              <label for="" class="mb-2">Select Payment Method</label>
-                              <select name="" class="form-select" id="payment_mode" required>
-                                    <option value="">-- Select Payment --</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="credit_card">Credit Card</option>
-                                    <option value="debit_card">Debit Card</option>
-                                    <option value="e_wallet">E - Wallet</option>
-                                    <option value="bank_transfer">Bank Transfer</option>
-                              </select>
+                  <div class="card-body" id="productWrapper">
+                        <div class="table-responsive">
+                              <table class="table table-bordered table-striped" id="productContent">
+                                    <thead>
+                                          <th>Id</th>
+                                          <th>Product Name</th>
+                                          <th>Price</th>
+                                          <th>Quantity</th>
+                                          <th>Total Price</th>
+                                          <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                          <?php if(empty($_SESSION['productOrders'])) {
+                                                unset($_SESSION['productOrders']);
+                                                unset($_SESSION['productOrderIds']);
+                                          } ?>
+                                          <?php if(!empty($_SESSION['productOrders'])) :?>
+                                                <?php $orders = $_SESSION['productOrders']?>
+                                                <?php foreach($orders as $key => $order) :?>
+                                                      <div class="alert danger errorMessage" hidden='true'></div>
+                                                      <tr>
+                                                            <td><?= $key + 1?></td>
+                                                            <td><?= $order['name']?></td>
+                                                            <td><?= $order['price']?></td>
+                                                            <td>
+                                                                  <div class="input-group qty-wrapper">
+                                                                        <input type="hidden" value="<?= $order['product_id']?>" class="productId">
+                                                                        <button id="" class="input-group-text decrement">-</button>
+                                                                        <input type="text" value="<?= $order['quantity']?>" class="qty quantityInput" style="width: 50px !important;padding: 6px 3px;text-align: center; border: 1px solid #cfb1b1; outline: 0; margin-right: 1px;">
+                                                                        <button id="" class="input-group-text increment">+</button>
+                                                                  </div>
+                                                            </td>
+                                                            <td>
+                                                                  <span class="itemTotal" data-product-id="<?= $order['product_id'] ?>">
+                                                                        <?= number_format($order['price'] * $order['quantity'], 0); ?>
+                                                                  </span>
+                                                            </td>
+                                                            <td>
+                                                                  <a href="?page=order&action=delete&index=<?= $key ?>" class="btn btn-danger">Remove</a href="">
+                                                            </td>
+                                                      </tr>
+                                                <?php endforeach;?>
+                                                <?php else:?>
+                                                      <tr>
+                                                            <td colspan="6" class="text-center">No Orders Added Yet</td>
+                                                      </tr>
+                                          <?php endif;?>
+                                    </tbody>
+                              </table>
                         </div>
-                        <div class="col-md-2">
-                              <label for="" class="mb-2"> Customer Phone</label>
-                              <input id="customer_phone" type="text" class="form-control" required placeholder="e.g. 09123456789">
-                        </div>
-                        <div class="col-md-4 align-self-end">
-                              <button type="button" class="btn btn-warning" id="placeOrderBtn">Proceed to place order</button>
+                        <!-- Payment Section -->
+                        <hr/>
+                        <div class="row mt-4">
+                              <!-- <div class="errors alert alert-danger alert-dismissible fade show" style="font-size: 15px;" role="alert" hidden></div> -->
+                              <div class="col-md-2">
+                                    <label for="" class="mb-2">Select Payment Method</label>
+                                    <select name="" class="form-select" id="payment_mode" required>
+                                          <option value="">-- Select Payment --</option>
+                                          <option value="cash">Cash</option>
+                                          <option value="credit_card">Credit Card</option>
+                                          <option value="debit_card">Debit Card</option>
+                                          <option value="e_wallet">E - Wallet</option>
+                                          <option value="bank_transfer">Bank Transfer</option>
+                                    </select>
+                              </div>
+                              <div class="col-md-2">
+                                    <label for="" class="mb-2"> Customer Phone</label>
+                                    <input id="customer_phone" type="text" class="form-control" required placeholder="e.g. 09123456789">
+                              </div>
+                              <div class="col-md-4 align-self-end">
+                                    <button type="button" class="btn btn-warning" id="placeOrderBtn">Proceed to place order</button>
+                              </div>
                         </div>
                   </div>
             </div>
-      </div>
+      <?php else:?>
+            <div class="alert alert-info mt-4">
+                  <strong>Info!</strong> No products added yet.
+            </div>
+      <?php endif;?>
 </div>

@@ -23,6 +23,9 @@
             case 'orderSummary':
                 include 'order-summary.php';
                 break;
+            case 'orders':
+                include 'order-list.php';
+                break;
             default:
                 echo 'No page found';
         }

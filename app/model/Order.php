@@ -8,10 +8,6 @@ use PDO;
 class Order extends Database {
 
       private $table = 'orders';
-      
-      public function getAllOrder() {
-          
-      }
 
       public function create(array $orderData, array $items) {
             
@@ -43,10 +39,10 @@ class Order extends Database {
                               VALUES (:order_id, :product_id, :price, :quantity)";
                   $itemStmt = $pdo->prepare($itemQuery);
 
-                  // Update Stock
+                  // Deduct stock
                   $stockQuery = "UPDATE products 
                        SET quantity = quantity - :qty 
-                       WHERE id = :product_id AND quantity >= :qty"; 
+                       WHERE id = :product_id AND quantity >= :minQty"; 
                   $stockStmt = $pdo->prepare($stockQuery);
 
                   foreach ($items as $item) {
@@ -57,10 +53,11 @@ class Order extends Database {
                               ':quantity'   => $item['quantity'],
                         ]);
 
-                        // Deduct stock
+                 
                         $stockStmt->execute([
                               ':product_id' => $item['product_id'],
                               ':qty'   => $item['quantity'],
+                              ':minQty'   => $item['quantity'],
                         ]);
 
                         // ⚠️ Check if stock was updated (if not, rollback)
@@ -70,12 +67,42 @@ class Order extends Database {
                   }
 
                   $pdo->commit();
-                  return $orderId; // return order_id for reference
+                  return ['order_tracking' => $orderData['tracking_no']]; // return order_id for reference
 
             } catch (\PDOException $e) {
                   $pdo->rollBack();
+                  // error_log("Params: " . print_r($orderData, true));
+                  // error_log("Params: " . print_r($items, true));
                   error_log('Create Order Failed: ' . $e->getMessage());
-                  return false;
+                  return [];
+            }
+      }
+
+      public function getAllOrders() {
+            try {
+                  $pdo = $this->connect();
+                  $query = "SELECT 
+                              o.id AS order_id,
+                              o.tracking_no,
+                              o.invoice_no,
+                              o.total_amount,
+                              o.order_status,
+                              o.payment_method,
+                              o.created_at,
+                              c.id AS customer_id,
+                              c.name AS customer_name,
+                              c.phone AS customer_phone,
+                              c.email AS customer_email,
+                              FROM {$this->table} o
+                              INNER JOIN customers c ON o.customer_id = c.id
+                              ORDER BY o.created_at DESC";
+                  $stmt = $pdo->prepare($query);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll();
+                  return $result;
+            } catch(\PDOException $e) {
+                  error_log('Get All Orders Failed: ' . $e->getMessage());
+                  return [];
             }
       }
 

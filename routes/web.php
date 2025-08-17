@@ -23,7 +23,7 @@ $routes = [
                   'payment' => 'payment', 
                   'orderSummary' => 'orderSummary',
                   'createOrder' => 'createOrder',
-                  'orderList' => 'orderList',
+                  'orders' => 'orders',
             ]
       ],
       'customer' => [

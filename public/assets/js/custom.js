@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   if (res.status == 200) {
 
+
                         Swal.fire({
                               title: "Order Created!",
                               text: "Your order has been successfully processed. You can check it in the orders list.",
@@ -286,15 +287,24 @@ document.addEventListener("DOMContentLoaded", function () {
                               // timerProgressBar: true
                         }).then((result) => {
                               if (result.isConfirmed) {
-                                    window.location.href = '?page=order&action=orderList';
+                                    if(res.data) {
+                                          window.location.href = '?page=order&action=orders';
+                                    } else {
+                                          window.location.href = '?page=order&action=create'
+                                    }
+                              }
+                        }).then(() => {
+                              if(res.data) {
+                                    window.location.href = '?page=order&action=create'
                               }
                         });
                   } else {
+                        console.log(res.data);
                         Swal.fire({
                               title: "Order Failed",
-                              text: res.message ?? "An unexpected error occurred. Please try again later.",
+                              text: "Duplicate Invoice Number. Please try again.",
                               icon: "error",
-                              confirmButtonText: "Retry 🔄",
+                              confirmButtonText: "Retry",
                               showCloseButton: true
                         });
                   }
