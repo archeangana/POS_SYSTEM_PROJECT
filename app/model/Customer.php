@@ -107,11 +107,11 @@ class Customer extends Database {
                   $pdo = $this->connect();
                   $query = "DELETE FROM {$this->table} WHERE id=:id";
                   $stmt = $pdo->prepare($query);
-                  $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                  $stmt->bindValue(':id', $id, PDO::PARAM_INT);
                   return $stmt->execute();
 
             } catch(PDOException $e) {
-                  error_log('Failed to create customer' . $e->getMessage());
+                  error_log('Failed to delete customer' . $e->getMessage());
                   return false;
             }
       }

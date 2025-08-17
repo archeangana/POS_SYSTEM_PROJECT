@@ -92,7 +92,7 @@ class Order extends Database {
                               c.id AS customer_id,
                               c.name AS customer_name,
                               c.phone AS customer_phone,
-                              c.email AS customer_email,
+                              c.email AS customer_email
                               FROM {$this->table} o
                               INNER JOIN customers c ON o.customer_id = c.id
                               ORDER BY o.created_at DESC";

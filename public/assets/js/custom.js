@@ -287,11 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               // timerProgressBar: true
                         }).then((result) => {
                               if (result.isConfirmed) {
-                                    if(res.data) {
-                                          window.location.href = '?page=order&action=orders';
-                                    } else {
-                                          window.location.href = '?page=order&action=create'
-                                    }
+                                    window.location.href = '?page=order&action=orders';
                               }
                         }).then(() => {
                               if(res.data) {

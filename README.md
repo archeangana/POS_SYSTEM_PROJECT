@@ -51,5 +51,5 @@ Includes a basic **authentication system** for secure user login and session man
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/yourusername/pos-system.git
+git clone https://github.com/archeangana/POS_SYSTEM_PROJECT.git
 cd pos-system

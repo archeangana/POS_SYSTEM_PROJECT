@@ -161,7 +161,7 @@ class CustomerController extends Controller {
       }
 
       public function deleteAction($data) {
-            $id = $data['id'] ?? null;
+            $id = $_GET['id'] ?? null;
             if(!empty($id) && isset($id)) {
                   $customerModel = new Customer();
                   $customerModel->delete($id);
