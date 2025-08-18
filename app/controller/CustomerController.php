@@ -164,12 +164,15 @@ class CustomerController extends Controller {
             $id = $_GET['id'] ?? null;
             if(!empty($id) && isset($id)) {
                   $customerModel = new Customer();
-                  $customerModel->delete($id);
-                  Flash::set('success', 'Customer Deleted successfully.');
-                  $this->redirectToPage('customer', 'show');
+                  $customerData = $customerModel->delete($id);
+                  if($customerData) {
+                        Flash::set('success', 'Customer Deleted successfully.');
+                        $this->redirectToPage('customer', 'show');
+                  } else {
+                        Flash::set('error', 'You cannot delete this customer as they have associated orders.');
+                        $this->redirectToPage('customer', 'show');
+                  }
             }
       }
-
-
 
 }

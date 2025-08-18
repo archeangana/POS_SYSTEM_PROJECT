@@ -302,5 +302,24 @@ class OrderController extends Controller {
             }
             $this->view('admin/orders/index', ['orders' => $orders]);
       }
-
+      public function viewAction($data) {
+            if(isset($data['track']) && !empty($data['track'])) {
+                  // Sanitize the tracking number
+                  if (ob_get_length()) ob_clean(); // Clear any accidental output
+                  $tracking_no = htmlspecialchars(trim($data['track']));
+                  $orderModel = new Order();
+                  $orderData = $orderModel->getOrderByTrackingNo($tracking_no);
+                  $orderItemsData = $orderModel->getOrderItemsByTrackingNo($tracking_no);
+                  
+                  if($orderData && $orderItemsData) {
+                        $this->view('admin/orders/index', ['order' => $orderData, 'orderItems' => $orderItemsData]);
+                  } else {
+                        Flash::set('error', "Order not found.");
+                        $this->redirectToPage('order', 'orders');
+                  }
+            } else {
+                  Flash::set('error', "Invalid tracking number.");
+                  $this->redirectToPage('order', 'orders');
+            }
+      }
 }

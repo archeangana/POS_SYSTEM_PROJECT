@@ -58,7 +58,7 @@
                                                       </td>
                                                       <td><?= $orderItem['payment_method']?></td>
                                                       <td>
-                                                            <a href="" class="btn btn-info btn-sm mb-0 px-2">View</a>
+                                                            <a href="?page=order&action=view&track=<?= $orderItem['tracking_no']?>" class="btn btn-info btn-sm mb-0 px-2">View</a>
                                                             <a href="" class="btn btn-primary btn-sm mb-0 px-2">Print</a>
                                                             <a href="" class="btn btn-danger btn-sm mb-0 px-2">Download PDF</a>
                                                       </td>

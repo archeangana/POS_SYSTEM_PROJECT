@@ -26,6 +26,9 @@
             case 'orders':
                 include 'order-list.php';
                 break;
+            case 'view':
+                include 'view-order.php';
+                break;
             default:
                 echo 'No page found';
         }

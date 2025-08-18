@@ -106,5 +106,52 @@ class Order extends Database {
             }
       }
 
+      public function getOrderByTrackingNo($trackingNo) {
+            try {
+                  // Join the orders table with the customers table
+                  $pdo = $this->connect();
+                  $query = "SELECT 
+                              o.tracking_no, 
+                              o.created_at, 
+                              o.order_status, 
+                              o.payment_method, 
+                              o.total_amount,
+                              c.name as customer_name, 
+                              c.phone as customer_phone, 
+                              c.email as customer_email 
+                        FROM {$this->table} as o 
+                        INNER JOIN customers as c 
+                        ON o.customer_id = c.id 
+                        WHERE tracking_no=:tracking_no 
+                        LIMIT 1";
+                  $stmt = $pdo->prepare($query);
+                  $stmt->bindParam(':tracking_no', $trackingNo, PDO::PARAM_STR);
+                  $stmt->execute();
+                  return $stmt->fetch();
+            } catch(PDOException $e) {
+                  error_log('Failed to get order by tracking number: ' . $e->getMessage());
+                  return [];
+            }
+      }
 
+      public function getOrderItemsByTrackingNo($trackingNo) {
+            try {
+                  $pdo = $this->connect();
+                  $query = "SELECT oi.quantity, oi.subtotal, p.image, p.price as product_price, p.name as product_name
+                              FROM order_items oi
+                              INNER JOIN products p
+                              ON oi.product_id = p.id
+                              INNER JOIN orders o 
+                              ON oi.order_id = o.id
+                              WHERE o.tracking_no = :tracking_no";
+                  $stmt = $pdo->prepare($query);
+                  $stmt->bindParam(':tracking_no', $trackingNo, PDO::PARAM_STR);
+                  $stmt->execute();
+                  error_log('Test');
+                  return $stmt->fetchAll();
+            } catch(PDOException $e) {
+                  error_log('Failed to get order items by tracking number: ' . $e->getMessage());
+                  return [];
+            }
+      }
 }
