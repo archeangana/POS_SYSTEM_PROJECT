@@ -322,4 +322,31 @@ class OrderController extends Controller {
                   $this->redirectToPage('order', 'orders');
             }
       }
+
+      public function printAction($data) {
+
+            if(!empty($data) && isset($data)) {
+                  $tracking_no = htmlspecialchars(trim($data['track']));
+
+                  if(!empty($tracking_no)) {
+                        $orderModel = new Order();
+                        $orderDataForPrint = $orderModel->getOrderByTrackingNo($tracking_no);
+                        $orderItemsDataForPrint = $orderModel->getOrderItemsByTrackingNo($tracking_no);
+
+                        if($orderDataForPrint && $orderItemsDataForPrint) {   
+                              http_response_code(200);
+                              $this->view('admin/orders/index', ['data' => $orderDataForPrint, 'orders' => $orderItemsDataForPrint]);
+                        }
+                  } else {
+                        http_response_code(404);
+                        Flash::set('error', 'Order Not found');
+                        $this->redirectToPage('order', 'orders');
+                  }
+            } else {
+                  Flash::set('error', 'Tracking No is empty');
+                  http_response_code(500);
+                  $this->redirectToPage('order', 'orders');
+            }
+
+      }
 }

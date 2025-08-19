@@ -25,6 +25,7 @@ $routes = [
                   'createOrder' => 'createOrder',
                   'orders' => 'orders',
                   'view' => 'view',
+                  'print' => 'print',
             ]
       ],
       'customer' => [

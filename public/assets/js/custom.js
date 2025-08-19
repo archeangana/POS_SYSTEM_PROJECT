@@ -275,27 +275,24 @@ document.addEventListener("DOMContentLoaded", function () {
                   const res = await dataSent.json();
 
                   if (res.status == 200) {
-
-
-                        Swal.fire({
-                              title: "Order Created!",
-                              text: "Your order has been successfully processed. You can check it in the orders list.",
-                              icon: "success",
-                              confirmButtonText: "View Orders",
-                              showCloseButton: true, // Adds the ❌ X button on top-right
-                              // timer: 3000, // Auto-close after 3s (optional)
-                              // timerProgressBar: true
-                        }).then((result) => {
-                              if (result.isConfirmed) {
-                                    window.location.href = '?page=order&action=orders';
-                              }
-                        }).then(() => {
-                              if(res.data) {
-                                    window.location.href = '?page=order&action=create'
-                              }
-                        });
+                              Swal.fire({
+                                    title: "Order Created!",
+                                    text: "Your order has been successfully processed.",
+                                    icon: "success",
+                                    showCancelButton: true,
+                                    confirmButtonText: "View Orders",
+                                    cancelButtonText: "Create Another Order",
+                                    allowOutsideClick: false,  // prevent closing by clicking outside
+                                    allowEscapeKey: false,     // prevent closing with Esc
+                                    showCloseButton: true,     // still show the (X) button
+                              }).then((result) => {
+                                    if (result.isConfirmed) {
+                                          window.location.href = '?page=order&action=orders';
+                                    } else if (result.isDismissed || result.isDenied) {
+                                          window.location.href = '?page=order&action=create';
+                                    }
+                              });
                   } else {
-                        console.log(res.data);
                         Swal.fire({
                               title: "Order Failed",
                               text: "Duplicate Invoice Number. Please try again.",

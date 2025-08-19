@@ -29,6 +29,9 @@
             case 'view':
                 include 'view-order.php';
                 break;
+            case 'print':
+                include 'print-order.php';
+                break;
             default:
                 echo 'No page found';
         }

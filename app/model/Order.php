@@ -112,6 +112,7 @@ class Order extends Database {
                   $pdo = $this->connect();
                   $query = "SELECT 
                               o.tracking_no, 
+                              o.invoice_no,
                               o.created_at, 
                               o.order_status, 
                               o.payment_method, 
