@@ -89,25 +89,8 @@
 
     <!-- Print Button (not included in print area) -->
     <div class="text-end mt-3">
-        <button type="button" class="btn btn-primary" onclick="printInvoice()">Print Invoice</button>
+        <button type="button" id="print-btn" class="btn btn-primary">Print Invoice</button>
+        <button type="button" id="download-pdf-btn" class="btn btn-danger" onclick="downloadPDF('<?= $data['invoice_no'] ?>')">Download PDF</button>
     </div>
 </div>
  
-<script>
-      function printInvoice() {
-            var printContents = document.getElementById('myBillingArea').innerHTML;
-            var originalContents = document.body.innerHTML;
-
-            // Replace the body with invoice content only
-            document.body.innerHTML = printContents;
-
-            // Trigger browser print dialog
-            window.print();
-
-            // Restore original page content after printing
-            document.body.innerHTML = originalContents;
-
-            // Reload page to reattach events (like JS click handlers)
-            location.reload();
-      }
-</script>

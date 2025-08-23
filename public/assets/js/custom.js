@@ -1,5 +1,4 @@
 
-document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".increment").forEach(function (btn) {
             btn.addEventListener("click", function () {
                   const wrapper = this.closest(".qty-wrapper");
@@ -258,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Create Order Function
       // order_create
       const createOrderBtn = document.getElementById('create-order-btn');
-      createOrderBtn.addEventListener('click', handleCreateOrder);
+      createOrderBtn?.addEventListener('click', handleCreateOrder);
 
       async function handleCreateOrder() {
             const dataSent = await fetch('?page=order&action=createOrder', {
@@ -311,4 +310,40 @@ document.addEventListener("DOMContentLoaded", function () {
                   });
             }
       }
-})
+
+      window.jsPDF = window.jspdf.jsPDF;
+      var docPDF = new jsPDF();
+
+      async function downloadPDF(invNo) {
+            const billingArea = document.querySelector("#myBillingArea");
+
+            docPDF.html(billingArea, {
+                  callback: function() {
+                        docPDF.save(invNo + '.pdf');
+                  },
+                  x: 15,
+                  y: 15,
+                  width: 170,
+                  windowWidth: 650
+            });
+      }
+
+      const prinBtn = document.getElementById('print-btn');
+      prinBtn.addEventListener('click', printInvoice);
+
+      function printInvoice() {
+            var printContents = document.getElementById('myBillingArea').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            // Replace the body with invoice content only
+            document.body.innerHTML = printContents;
+
+            // Trigger browser print dialog
+            window.print();
+
+            // Restore original page content after printing
+            document.body.innerHTML = originalContents;
+
+            // Reload page to reattach events (like JS click handlers)
+            location.reload();
+        }
