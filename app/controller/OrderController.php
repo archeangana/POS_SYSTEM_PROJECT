@@ -291,17 +291,27 @@ class OrderController extends Controller {
             return $this->jsonResponse(500, 'error', 'Server Error');
       }
 
-      public function ordersAction() {
+      public function ordersAction($data) {
 
             // Select all from orders table
 
             $orderModel = new Order();
-            $orders = $orderModel->getAllOrders();
-            if(empty($orders)) {
-                  $orders = [];
+            $orders = [];
+
+            if(!empty($data)) {
+                  if(isset($data['date']) || isset($data['payment_status'])) {
+                        $orders = $orderModel->filterOrders($data['date'], $data['payment_status']);
+                        $this->view('admin/orders/index', ['orders' => $orders, 'date' => $data['date'], 'payment_status' => $data['payment_status']]);
+                  } 
+            } else{
+                   $orders = $orderModel->getAllOrders();
+                  if(empty($orders)) {
+                        $orders = [];
+                  }
+                  $this->view('admin/orders/index', ['orders' => $orders]);
             }
-            $this->view('admin/orders/index', ['orders' => $orders]);
       }
+
       public function viewAction($data) {
             if(isset($data['track']) && !empty($data['track'])) {
                   // Sanitize the tracking number

@@ -106,6 +106,37 @@ class Order extends Database {
             }
       }
 
+      public function filterOrders($date, $paymentStatus) {
+            try {
+                  $pdo = $this->connect();
+                  $query = "SELECT 
+                              o.id AS order_id,
+                              o.tracking_no,
+                              o.invoice_no,
+                              o.total_amount,
+                              o.order_status,
+                              o.payment_method,
+                              o.created_at,
+                              c.id AS customer_id,
+                              c.name AS customer_name,
+                              c.phone AS customer_phone,
+                              c.email AS customer_email
+                              FROM {$this->table} o
+                              INNER JOIN customers c ON o.customer_id = c.id
+                              WHERE DATE(o.created_at) = :date AND o.payment_method = :payment_status
+                              ORDER BY o.created_at DESC";
+                  $stmt = $pdo->prepare($query);
+                  $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+                  $stmt->bindParam(':payment_status', $paymentStatus, PDO::PARAM_STR);
+                  $stmt->execute();
+                  $result = $stmt->fetchAll();
+                  return $result;
+            } catch(\PDOException $e) {
+                  error_log('Get All Orders Failed: ' . $e->getMessage());
+                  return [];
+            }
+      }
+
       public function getOrderByTrackingNo($trackingNo) {
             try {
                   // Join the orders table with the customers table
@@ -148,7 +179,6 @@ class Order extends Database {
                   $stmt = $pdo->prepare($query);
                   $stmt->bindParam(':tracking_no', $trackingNo, PDO::PARAM_STR);
                   $stmt->execute();
-                  error_log('Test');
                   return $stmt->fetchAll();
             } catch(PDOException $e) {
                   error_log('Failed to get order items by tracking number: ' . $e->getMessage());

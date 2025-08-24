@@ -347,3 +347,15 @@
             // Reload page to reattach events (like JS click handlers)
             location.reload();
         }
+
+
+      const resetBtn = document.getElementById('reset-filter-btn');
+      resetBtn.addEventListener('click', async () => {
+            const data = await fetch('?page=order&action=orders', {
+                  method: 'POST',
+                  headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                  }, 
+                  body: new URLSearchParams({})
+            });
+      });

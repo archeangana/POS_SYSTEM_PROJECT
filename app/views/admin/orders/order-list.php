@@ -4,9 +4,37 @@
     
       <div class="card">
             <div class="card-header">
-                  <h4 class="mb-0 d-flex justify-content-between align-items-center">
-                  Orders
-                  </h4>
+                  <div class="row">
+                        <div class="col-md-4">
+                              <h4 class="mb-0 d-flex justify-content-between align-items-center">
+                                    Orders
+                              </h4>
+                        </div>
+                        <div class="col-md-8">
+                              <form action="index.php?page=order&action=orders" method="POST">
+                                    <div class="row g-1">
+                                          <div class="col-md-4">
+                                                <input type="date" name="date" id="" value="<?= isset($date) ? $date : ''?>" class="form-control">
+                                          </div>
+                                          <div class="col-md-4">
+                                                <select name="payment_status" id="" class="form-select">
+                                                      <option value="">-- Select Payment --</option>
+                                                      <?php 
+                                                            $options = ['cash', 'credit_card', 'debit_card', 'e_wallet', 'bank_transfer'];
+                                                            foreach($options as $option) :
+                                                      ?>
+                                                            <option value="<?= $option?>" <?= $option == $payment_status ? 'selected' : ''?>><?= ucwords(str_replace('_', ' ', $option)); ?></option>
+                                                      <?php endforeach; ?>
+                                                </select>
+                                          </div>
+                                          <div class="col-md-4">
+                                                <button type="submit" class="btn btn-primary">Filter</button>
+                                                <button type="button" class="btn btn-danger" id="reset-filter-btn">Reset</button>
+                                          </div>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
             </div>
             <?php if(!empty($orders)) :?>
                   <div class="card-body">
