@@ -29,7 +29,7 @@
                                           </div>
                                           <div class="col-md-4">
                                                 <button type="submit" class="btn btn-primary">Filter</button>
-                                                <button type="button" class="btn btn-danger" id="reset-filter-btn">Reset</button>
+                                                <a href="?page=order&action=orders" class="btn btn-danger" id="reset-filter-btn">Reset</a>
                                           </div>
                                     </div>
                               </form>
