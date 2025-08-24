@@ -23,7 +23,7 @@
                                                             $options = ['cash', 'credit_card', 'debit_card', 'e_wallet', 'bank_transfer'];
                                                             foreach($options as $option) :
                                                       ?>
-                                                            <option value="<?= $option?>" <?= $option == $payment_status ? 'selected' : ''?>><?= ucwords(str_replace('_', ' ', $option)); ?></option>
+                                                            <option value="<?= $option?>" <?= isset($payment_status) == true ? $option == $payment_status ? 'selected' : '' : ''?>><?= ucwords(str_replace('_', ' ', $option)); ?></option>
                                                       <?php endforeach; ?>
                                                 </select>
                                           </div>
