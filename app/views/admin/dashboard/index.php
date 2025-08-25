@@ -1,56 +1,50 @@
-<?php 
+<div class="container-fluid px-4">
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h1 class="mt-4 fw-bold text-primary">Dashboard</h1>
+      <p class="text-muted">Overview of your system analytics</p>
+    </div>
+  </div>
 
-?>
-
-      <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
-            <ol class="breadcrumb mb-4">
-                  <li class="breadcrumb-item active">Dashboard</li>
-                 
-                  <?php 
-                      // Test
-                        // $array = [
-                        //       'products' => [
-                        //             'name' => 'test',
-                        //             'quantity' => 2,
-                        //       ]
-                        // ];
-                        // $newData = [
-                        //       'name' => 'dress',
-                        //       'quantity' => 10
-                        // ];
-                        // array_push($array['products'], $newData);
-                        // array_push($array['products'], $newData);
-                        // array_push($array['products'], $newData);
-                        // var_dump($array);
-
-                        // foreach($array['products'] as $key => $value) {
-                        //       echo $key;
-                        // }
-
-                  
-                  ?>
-            </ol>
-            <div class="row">
-                  <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                              <div class="card-body">Primary Card</div>
-                              <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                              </div>
-                        </div>
-                  </div>
-                  <div class="col-xl-3 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
-                              <div class="card-body">Warning Card</div>
-                              <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                              </div>
-                        </div>
-                  </div>
-            </div>
+  <div class="row g-4">
+    <!-- Total Products -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3 h-100 bg-warning">
+        <div class="card-body d-flex flex-column align-items-start">
+          <p class="text-uppercase fw-semibold text-white small mb-2">Total Products</p>
+          <h4 class="fw-bold text-white"><?= $data['totalProducts']; ?></h4>
+        </div>
       </div>
+    </div>
 
-<?php // include '../layouts/footer.php'; ?>
+    <!-- Total Customers -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3 h-100 bg-info">
+        <div class="card-body d-flex flex-column align-items-start">
+          <p class="text-uppercase fw-semibold text-white small mb-2">Total Customers</p>
+          <h4 class="fw-bold text-white"><?= $data['totalCustomers']; ?></h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Orders -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3 h-100 bg-success">
+        <div class="card-body d-flex flex-column align-items-start  ">
+          <p class="text-uppercase fw-semibold small mb-2 text-white">Total Orders</p>
+          <h4 class="fw-bold text-white"><?= $data['totalOrders']; ?></h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Admins -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3 h-100">
+        <div class="card-body d-flex flex-column align-items-start">
+          <p class="text-uppercase fw-semibold text-muted small mb-2">Total Admins</p>
+          <h4 class="fw-bold text-dark"><?= $data['totalAdmins']; ?></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

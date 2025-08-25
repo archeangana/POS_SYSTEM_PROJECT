@@ -2,7 +2,8 @@
 
 namespace App\Model;
 use App\Http\Database;
-
+use PDOException;
+use PDO;
 
 class User extends Database {
       private $table = 'users';
@@ -73,22 +74,63 @@ class User extends Database {
       public function createUser($data) {
             try {
                   $pdo = $this->connect();
-                  if($pdo) {
-                        $query = "INSERT INTO {$this->table} (username, email, password, confirm_password, csrf_token) VALUES (:username, :email, :password, :confirm_password, :csrf_token)";
-                        $stmt = $pdo->prepare($query);
-                        $stmt->bindParam(':username', $data['username']);
-                        $stmt->bindParam(':email', $data['email']);
-                        $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
-                        $stmt->bindValue(':confirm_password', password_hash($data['confirm_password'], PASSWORD_BCRYPT));
-                        $stmt->bindParam(':csrf_token', $data['csrf_token']);
-                        return $stmt->execute();
-                  } else {
+                  if (!$pdo) {
+                        throw new \Exception("Database connection failed.");
+                  }
+
+                  $pdo->beginTransaction();
+                  // Insert user
+                  $userQuery = "INSERT INTO {$this->table} (username, email, password, confirm_password, csrf_token) 
+                              VALUES (:username, :email, :password, :confirm_password, :csrf_token)";
+                  $userStmt = $pdo->prepare($userQuery);
+                  $userStmt->bindParam(':username', $data['username']);
+                  $userStmt->bindParam(':email', $data['email']);
+                  $userStmt->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
+                  $userStmt->bindValue(':confirm_password', password_hash($data['confirm_password'], PASSWORD_BCRYPT));
+                  $userStmt->bindParam(':csrf_token', $data['csrf_token']);
+
+                  if (!$userStmt->execute()) {
+                        $pdo->rollBack();
                         return false;
                   }
-            } catch(PDOException $e) {
-                  echo "Error: " . $e->getMessage();
-                  die();
+
+                  // Get the last inserted Id or Signed up User
+                  $userId = $pdo->lastInsertId();
+                  if (!$userId) {
+                        $pdo->rollBack();
+                        return false;
+                  }
+
+                  // Get the roles
+                  $roleQuery = "SELECT id as role_id, name FROM roles WHERE name = :role_name LIMIT 1";
+                  $roleStmt = $pdo->prepare($roleQuery);
+                  $roleName = 'customer';
+                  $roleStmt->bindValue(':role_name', $roleName, PDO::PARAM_STR);
+                  if(!$roleStmt->execute()) {
+                        $pdo->rollBack();
+                        return false;
+                  }
+                  $roles = $roleStmt->fetch();
+
+                  // Insert user roles
+                  $userRoleQuery = "INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)";
+                  $userRoleStmt = $pdo->prepare($userRoleQuery);
+                  $userRoleStmt->bindParam(':user_id', $userId);
+                  $userRoleStmt->bindParam(':role_id', $roles['role_id']);
+
+                  if (!$userRoleStmt->execute()) {
+                        $pdo->rollBack();
+                        return false;
+                  }
+
+                  $pdo->commit();
+                  return true;
+
+            } catch (\PDOException $e) {
+                  if ($pdo && $pdo->inTransaction()) {
+                        $pdo->rollBack();
+                  }
+                  throw $e;
             }
       }
-
 }

@@ -4,12 +4,23 @@ namespace App\Controller;
 use App\Core\Controller;
 use App\Core\Helpers\BaseUrl;
 use App\Model\Admin;
+use App\Model\Analytics;
+
+
 use App\Core\Helpers\Flash;
 
 class AdminController extends Controller {
 
       public function indexAction() {
-            $this->view('admin/index');
+            
+            $analyticsModel = new Analytics();
+            $data = [
+                  'totalOrders' => $analyticsModel->getCount('orders'),
+                  'totalCustomers' => $analyticsModel->getCount('customers'),
+                  'totalProducts' => $analyticsModel->getCount('products'),
+                  'totalAdmins' => $analyticsModel->getCount('admins')
+            ];
+            $this->view('admin/index', ['data' => $data]);
       }
 
       public function showAction() {
