@@ -88,7 +88,6 @@
                                                       <td>
                                                             <a href="?page=order&action=view&track=<?= $orderItem['tracking_no']?>" class="btn btn-info btn-sm mb-0 px-2">View</a>
                                                             <a href="?page=order&action=print&track=<?= $orderItem['tracking_no']?>" class="btn btn-primary btn-sm mb-0 px-2">Print</a>
-                                                            <a href="" class="btn btn-danger btn-sm mb-0 px-2">Download PDF</a>
                                                       </td>
                                                 </tr>
                                           <?php endforeach;?>

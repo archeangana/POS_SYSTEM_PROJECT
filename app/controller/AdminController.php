@@ -137,6 +137,7 @@ class AdminController extends Controller {
                               Flash::set('success', 'Admin Successfully Updated!');
                               $this->redirectToPage('admin/admins', 'admin');
                               exit();
+                              
                         } catch(\Exception $e) {
                               error_log("Registration error: " . $e->getMessage());
                               $errorMessage[] = "An unexpected error occurred. Please try again later.";

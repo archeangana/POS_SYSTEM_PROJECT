@@ -6,7 +6,7 @@ use PDOException;
 
 class Database {
       private $host = 'localhost';
-      private $db_name = 'cms_system';
+      private $db_name = 'pos_db';
       private $username = 'root';
       private $password = '';
 

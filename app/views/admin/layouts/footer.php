@@ -3,13 +3,13 @@
             </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
+                        <div class="d-flex align-items-center justify-content-center small">
                             <div class="text-muted">Copyright &copy; POS System 2025</div>
-                            <div>
+                            <!-- <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
                                 <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </footer>
@@ -28,6 +28,7 @@
 
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/custom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- <script src="assets/demo/chart-area-demo.js"></script>
         <script src="assets/demo/chart-bar-demo.js"></script> -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script> -->

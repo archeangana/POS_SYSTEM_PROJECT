@@ -47,4 +47,47 @@
       </div>
     </div>
   </div>
+
+  <!-- Sales Chart -->
+  <!-- <div class="row mt-5">
+    <div class="col-md-12">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">Sales Overview</h5>
+          <canvas id="salesChart" height="100"></canvas>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+<!-- End -->
 </div>
+<!-- 
+<script>
+  const ctx = document.getElementById('salesChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        label: 'Sales',
+        data: [1200, 1900, 3000, 2500, 3200, 4100, 3800],
+        borderColor: '#0d6efd',
+        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#0d6efd',
+        pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+</script> -->

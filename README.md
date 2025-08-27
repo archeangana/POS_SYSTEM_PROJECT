@@ -43,7 +43,7 @@ Includes a basic **authentication system** for secure user login and session man
 
 | Login Page                 | Dashboard                  |
 |----------------------------|----------------------------|
-| ![Login](./assets/login.png) | ![Dashboard](./assets/dashboard.png) |
+| ![Login](./assets/img/screenshot/login-page.png) | ![Dashboard](./assets/img/screenshot/dashboard.png) |
 
 ---
 

@@ -10,16 +10,18 @@
 ?>
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Sign Up</h2>
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4 fw-bold text-primary">Create Account</h2>
+                    
                     <form method="POST" action="/">
                         <input type="hidden" name="page" value="register">
                         <input type="hidden" name="action" value="register">
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+
                         <?php if(isset($errors) && !empty($errors)) : ?>
-                            <div class="alert alert-danger" role="alert">
+                            <div class="alert alert-danger rounded-3 shadow-sm" role="alert">
                                 <?php 
                                     foreach ($errors as $error) {
                                         echo htmlspecialchars($error) . '<br>';
@@ -27,30 +29,45 @@
                                 ?>
                             </div>
                         <?php endif; ?>
+
+                        <!-- Username -->
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <label for="username" class="form-label fw-semibold">Username</label>
+                            <input type="text" class="form-control rounded-pill px-3 py-2" id="username" name="username">
                         </div>
+
+                        <!-- Email -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label for="email" class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control rounded-pill px-3 py-2" id="email" name="email" required>
                         </div>
+
+                        <!-- Password -->
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control rounded-pill px-3 py-2" id="password" name="password" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+                            <label for="confirm_password" class="form-label fw-semibold">Confirm Password</label>
+                            <input type="password" class="form-control rounded-pill px-3 py-2" id="confirm_password" name="confirm_password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+
+                        <!-- Button -->
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold shadow-sm">
+                            Sign Up
+                        </button>
                     </form>
-                    <div class="mt-3 text-center">
-                        <span>Already have an account?</span>
-                        <a href="?page=login" class="link-primary">Login</a>
+
+                    <!-- Login Link -->
+                    <div class="mt-4 text-center">
+                        <span class="text-muted">Already have an account?</span>
+                        <a href="?page=login" class="fw-semibold text-decoration-none text-primary ms-1">Login</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
