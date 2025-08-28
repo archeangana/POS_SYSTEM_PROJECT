@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Core\Controller;
 use App\Model\User;
 use App\Core\Helpers\Flash;
+use App\Model\UserRole;
 
 class AuthController extends Controller {
      
@@ -40,9 +41,18 @@ class AuthController extends Controller {
                         $userModel = new User();
                         $user = $userModel->loginUser(['email' => $email, 'password' => $password]);
 
-                        if ($user) {       
-                              $this->redirectToPage('admin');
-                              exit();
+                        if ($user) {
+                              $userRoleModel = new UserRole();
+                              $role = $userRoleModel->getRoleByUserId($user['id']);
+                              if($role['name'] == 'admin' || $role['name'] == 'staff' || $role['name'] == 'secretary') {
+                                    $_SESSION['is_admin'] = true;
+                                    $this->redirectToPage('admin');
+                                    exit();
+                              } else {
+                                    $_SESSION['is_admin'] = false;
+                                    header('Location: /');
+                                    exit();
+                              }       
                         } else {
                               $errorMessage[] = "Invalid email or password.";
                         }

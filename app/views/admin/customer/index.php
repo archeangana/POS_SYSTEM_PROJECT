@@ -1,6 +1,6 @@
 <?php 
-    if(!isset($_SESSION['is_logged_in']) ) {
-        header("Location: ?page=login");
+    if(!isset($_SESSION['is_logged_in']) || $_SESSION['is_admin'] !== true ) {
+        header("Location: /");
         exit();
     }
     include dirname(__DIR__) . '/layouts/header.php'; 

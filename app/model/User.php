@@ -104,7 +104,7 @@ class User extends Database {
                   // Get the roles
                   $roleQuery = "SELECT id as role_id, name FROM roles WHERE name = :role_name LIMIT 1";
                   $roleStmt = $pdo->prepare($roleQuery);
-                  $roleName = 'customer';
+                  $roleName = 'admin';
                   $roleStmt->bindValue(':role_name', $roleName, PDO::PARAM_STR);
                   if(!$roleStmt->execute()) {
                         $pdo->rollBack();
