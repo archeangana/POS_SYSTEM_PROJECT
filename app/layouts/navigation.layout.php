@@ -11,6 +11,11 @@
         <li class="nav-item">
             <a href="?page=login&action=logout" class="btn btn-warning">Logout</a>
         </li>
+        <?php if(isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+          <li class="nav-item">
+            <a href="?page=admin" class="btn btn-primary ms-2">Dashboard</a>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>

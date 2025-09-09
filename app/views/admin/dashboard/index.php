@@ -41,7 +41,7 @@
     <div class="col-md-3 col-sm-6">
       <div class="card shadow-sm border-0 rounded-3 h-100">
         <div class="card-body d-flex flex-column align-items-start">
-          <p class="text-uppercase fw-semibold text-muted small mb-2">Total Admins</p>
+          <p class="text-uppercase fw-semibold text-muted small mb-2">Total Sales</p>
           <h4 class="fw-bold text-dark"><?= $data['totalAdmins']; ?></h4>
         </div>
       </div>

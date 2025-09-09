@@ -102,4 +102,12 @@ $routes = [
                   'notFound' => 'notFound',
             ]
       ],
+      'settings' => [
+            'controller' => 'SettingController',
+            'file' => 'controller/SettingController.php',
+            'actions' => [
+                  'index' => 'index',
+                  'save' => 'save',
+            ]
+      ]
 ];

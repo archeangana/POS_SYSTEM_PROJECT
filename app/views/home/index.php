@@ -7,9 +7,10 @@
     include dirname(__DIR__, 2) . '/layouts/header.php';
 ?>
 
-<div class="container mt-5">
+<div class="container mt-5 text-center">
     <?php if (isset($_SESSION['user'])): ?>
-        <h1>Welcome, <?= htmlspecialchars($_SESSION['user']['username']) ?>!</h1>
+        <h1 class="">Welcome, <?= htmlspecialchars($_SESSION['user']['username']) ?>!</h1>
+        <p class="text-muted fs-5 ">This is for Demo Purpose only</p>
     <?php else: ?>
         <h1>Welcome to the Home Page!</h1>
     <?php endif; ?>

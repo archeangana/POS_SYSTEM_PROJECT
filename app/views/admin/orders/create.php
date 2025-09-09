@@ -136,7 +136,18 @@
                               </div>
                               <div class="col-md-2">
                                     <label for="" class="mb-2"> Customer Phone</label>
-                                    <input id="customer_phone" type="text" class="form-control" required placeholder="e.g. 09123456789">
+                                    <select name="" id="customer_phone" class="form-select">
+                                          <option value="">-- Select Customer --</option>
+                                          <?php if(!empty($customers)) :?>
+                                                <?php foreach($customers as $customer) :?>
+                                                      <option value="<?= htmlspecialchars($customer['phone'])?>">
+                                                            <?php echo htmlspecialchars($customer['phone'].' - '.$customer['name']);?>
+                                                      </option>
+                                                <?php endforeach; ?>
+                                                <?php else : ?>
+                                                      <option value="">No Customers Added Yet</option>
+                                          <?php endif;?>
+                                    </select>
                               </div>
                               <div class="col-md-4 align-self-end">
                                     <button type="button" class="btn btn-warning" id="placeOrderBtn">Proceed to place order</button>

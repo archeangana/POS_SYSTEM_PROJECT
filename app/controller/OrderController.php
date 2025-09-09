@@ -32,7 +32,6 @@ class OrderController extends Controller {
             );
             exit;
       }
-
       
       public function addAction($data) {
             if(!isset($_SESSION['productOrderIds'])) {
@@ -123,10 +122,11 @@ class OrderController extends Controller {
 
       public function createAction() {
             $productsData = (new Product())->getAll();
+            $customerData = (new Customer())->getAll();
             if(empty($productsData)) {
                   $productsData = [];
             }
-            $this->view('admin/orders/index', ['products' => $productsData]);
+            $this->view('admin/orders/index', ['products' => $productsData, 'customers' => $customerData]);
       }
 
 

@@ -140,11 +140,17 @@
                                           <a class="nav-link <?= $page == 'customer' && $action == 'show' ? 'active show' : ''?>" href="?page=customer&action=show">View Customers</a>
                                     </nav>
                               </div>
-
+                              <div class="sb-sidenav-menu-heading">Settings</div>
+                              <a class="nav-link <?= $page == 'settings' ? 'active' : ''?>" href="?page=settings">
+                                    <div class="sb-nav-link-icon">
+                                          <i class="fas fa-cog"></i>
+                                    </div>
+                                    Settings
+                              </a>
                         </div>
                   </div>
             <!-- <div class="sb-sidenav-footer">
-                  <div class="small">Logged in as:</div>
+                  <div class="">Logged in as:</div>
                   Start Bootstrap
             </div> -->
       </nav>
