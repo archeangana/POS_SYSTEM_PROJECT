@@ -5,7 +5,7 @@ use App\Core\Controller;
 use App\Core\Helpers\BaseUrl;
 use App\Model\Admin;
 use App\Model\Analytics;
-
+use App\Model\Role;
 
 use App\Core\Helpers\Flash;
 
@@ -31,6 +31,17 @@ class AdminController extends Controller {
             $this->view('admin/admins/index', ['admins' => $admins]);
       }
 
+      public function createAction() {
+
+            $rolesData = (new Role())->getAllRoles();
+            if(empty($rolesData)) {
+                  http_response_code(404);
+                  $rolesData = [];
+            }
+
+            $this->view('admin/admins/index', ['data' => $rolesData]);
+      }
+
       public function addAction($data) {
             if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                   $errorMessage = [];
@@ -40,7 +51,7 @@ class AdminController extends Controller {
                   $password = trim($data['password'] ?? '');
                   $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
                   $phone = trim($data['phone'] ?? '');
-                  $is_ban = isset($data['is_ban']) ? 1 : 0;
+                  $role_id = trim($data['role_id'] ?? 4);
 
                   // Validate Input
                   if(empty($name) &&  empty($password) && empty($email) && empty($phone)) {
@@ -66,12 +77,12 @@ class AdminController extends Controller {
                                           'password' => $password,
                                           'email' => $email,
                                           'phone' => $phone,
-                                          'is_ban' => $is_ban
+                                          'role_id' => $role_id
                                     ];
 
                                     $adminModel->addAdmin($newAdminData);
                                     Flash::set('success', 'Admin Successfully created!');
-                                    $this->redirectToPage('admin', 'admin');
+                                    $this->redirectToPage('admin', 'show');
                                     exit();
                               }
                         } catch(\Exception $e) {
@@ -81,18 +92,15 @@ class AdminController extends Controller {
                   }
             }
       }
-
-      public function createAction() {
-            $this->view('admin/admins/index');
-      }
-
+ 
       public function editAction($data) {
             $id = $data['id'] ?? '';
             if(isset($id)) {
                 if(!empty($id)) {
                         $admin = new Admin();
-                        $adminData = $admin->getadminById($id);
-                        $this->view('admin/admins/index', ['data' => $adminData]);
+                        $roles = (new Role())->getAllRoles();
+                        $adminData = $admin->getAdminById($id);
+                        $this->view('admin/admins/index', ['data' => $adminData, 'roles' => $roles]);
                 }  
             }
       }
@@ -106,7 +114,7 @@ class AdminController extends Controller {
                   $password = trim($data['password'] ?? '');
                   $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
                   $phone = trim($data['phone'] ?? '');
-                  $is_ban = isset($data['is_ban']) ? 1 : 0;
+                  $role_id = trim($data['role_id'] ?? 4);
 
                   // Validate Input
                   if(empty($name) &&  empty($password) && empty($email) && empty($phone)) {
@@ -131,11 +139,11 @@ class AdminController extends Controller {
                                     'password' => $password,
                                     'email' => $email,
                                     'phone' => $phone,
-                                    'is_ban' => $is_ban
+                                    'role_id' => $role_id
                               ];
                               $adminModel->updateAdmin($newAdminData);
                               Flash::set('success', 'Admin Successfully Updated!');
-                              $this->redirectToPage('admin/admins', 'admin');
+                              $this->redirectToPage('admin', 'show');
                               exit();
                               
                         } catch(\Exception $e) {

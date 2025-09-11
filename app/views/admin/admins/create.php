@@ -28,8 +28,15 @@
                                     <input id="phone" type="text" name="phone" required class="form-control">
                               </div>
                               <div class="col-md-3 mb-3">
-                                    <label for="is_ban" class="mb-2">Is Ban</label>   
-                                    <input id="is_ban" type="checkbox" name="is_ban" style="width: 30px; height: 30px;">
+                                    <label for="role_id" class="mb-2">Role</label>   
+                                    <select name="role_id" id="role_id" class="form-select">
+                                                <option value="">-- Select Role --</option>
+                                          <?php if(!empty($data)) :?>
+                                                <?php foreach($data as $role): ?>
+                                                      <option value="<?= $role['id'] ?>"><?= ucfirst($role['name']) ?></option>
+                                                <?php endforeach; ?>
+                                          <?php endif;?>
+                                    </select>
                               </div>
                               <div class="col-md-12 mb-3">
                                    <button type="submit" name="submit" class="btn btn-success">Create</button>

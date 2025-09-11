@@ -19,7 +19,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
-                            <th>Is Ban</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -31,11 +31,7 @@
                                     <td><?php echo htmlspecialchars($admin['name']); ?></td>
                                     <td><?php echo htmlspecialchars($admin['email']); ?></td>
                                     <td><?php echo htmlspecialchars($admin['phone']); ?></td>
-                                    <td>
-                                          <span class="badge <?php echo $admin['is_ban'] == 1 ? 'bg-danger' : 'bg-primary'?>">
-                                                <?php echo $admin['is_ban'] == 1 ? 'Banned' : 'Active'?>
-                                          </span> 
-                                    </td>
+                                    <td><?php echo ucfirst($admin['role_name']); ?></td>
                                     <td>
                                         <a href="?page=admin&action=delete&id=<?php echo $admin['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                                         <a href="?page=admin&action=edit&id=<?php echo $admin['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
@@ -43,7 +39,7 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <tr>
+                            <tr class="alert alert-info text-center">
                                 <td colspan="6" class="text-center">No records found.</td>
                             </tr>
                         <?php endif; ?>

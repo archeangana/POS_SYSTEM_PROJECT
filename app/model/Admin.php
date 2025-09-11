@@ -3,6 +3,7 @@
 namespace App\Model;
 use App\Http\Database;
 use PDO;
+use PDOException;
 
 class Admin extends Database {
 
@@ -11,17 +12,17 @@ class Admin extends Database {
       public function addAdmin($data) {
             try {
                   $pdo = $this->connect();
-                  $query = "INSERT INTO {$this->table} (name, password, email, phone, is_ban) VALUES (:name, :password, :email, :phone, :is_ban)";
+                  $query = "INSERT INTO {$this->table} (name, password, email, phone, role_id) VALUES (:name, :password, :email, :phone, :role_id)";
                   $stmt = $pdo->prepare($query);
                   $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
                   $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
                   $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
                   $stmt->bindParam(':phone', $data['phone'], PDO::PARAM_STR);
-                  $stmt->bindParam(':is_ban', $data['is_ban'], PDO::PARAM_BOOL);
+                  $stmt->bindParam(':role_id', $data['role_id'], PDO::PARAM_INT);
                   return $stmt->execute();
 
             } catch(PDOException $e) {
-                  return 'Add Admin Failed' . $e->getMessage();
+                  throw new PDOException('Add Admin Failed' . $e->getMessage());
             }
       }
 
@@ -42,7 +43,9 @@ class Admin extends Database {
       public function getAdminById($id) {
             try {
                   $pdo = $this->connect();
-                  $query = "SELECT * FROM {$this->table} WHERE id=:id LIMIT 1";
+                  $query = "SELECT * FROM {$this->table} 
+                              WHERE id=:id 
+                              LIMIT 1";
                   $stmt = $pdo->prepare($query);
                   $stmt->bindParam(':id', $id);
                   $stmt->execute();
@@ -57,7 +60,7 @@ class Admin extends Database {
             try {
 
                   $pdo = $this->connect();
-                  $query = "SELECT * FROM {$this->table} ORDER BY id ASC";
+                  $query = "SELECT a.*, r.name as role_name FROM {$this->table} a INNER JOIN roles r ON r.id = a.role_id ORDER BY id ASC";
                   $stmt = $pdo->prepare($query);
                   $stmt->execute();
                   return $stmt->fetchAll();
@@ -70,7 +73,7 @@ class Admin extends Database {
       public function updateAdmin($data) {
             try {
                   $pdo = $this->connect();
-                  $query = "UPDATE {$this->table} SET name=:name, email=:email, password=:password, phone=:phone, is_ban=:is_ban WHERE id=:id";
+                  $query = "UPDATE {$this->table} SET name=:name, email=:email, password=:password, phone=:phone, role_id=:role_id WHERE id=:id";
                   $stmt = $pdo->prepare($query);
                   // Sanitize and Bind Values
                   $stmt->bindParam(':id', $data['id'], PDO::PARAM_STR);
@@ -78,7 +81,7 @@ class Admin extends Database {
                   $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
                   $stmt->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT), PDO::PARAM_STR);
                   $stmt->bindParam(':phone', $data['phone'], PDO::PARAM_STR);
-                  $stmt->bindParam(':is_ban', $data['is_ban'], PDO::PARAM_BOOL);
+                  $stmt->bindParam(':role_id', $data['role_id'], PDO::PARAM_INT);
                   return $stmt->execute();
             } catch(PDOException $e) {
                   return 'Admin not Found' . $e->getMessage();
