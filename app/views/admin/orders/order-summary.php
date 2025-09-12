@@ -18,9 +18,8 @@
                             
                             <!-- Company Info -->
                             <div class="text-center mb-4">
-                                <h4 class="fw-bold mb-1">Company Ltd.</h4>
-                                <p class="mb-0">Pungsod Lawaan III, Talisay City, Cebu</p>
-                                <p class="text-muted small">Company Name</p>
+                                <h4 class="fw-bold mb-1"><?= $companyDetails['company_name'] ?? 'Company Name Here' ?></h4>
+                                <p class="mb-0"><?= $companyDetails['company_address'] ?? 'Company Address Here'?></p>
                             </div>
 
                             <!-- Customer & Invoice Details -->

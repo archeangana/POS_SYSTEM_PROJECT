@@ -5,6 +5,7 @@ use App\Core\Controller;
 use App\Model\Order;
 use App\Model\Product;
 use App\Model\Customer;
+use App\Model\Company;
 use App\Core\Helpers\Flash;
 
 class OrderController extends Controller {
@@ -211,10 +212,12 @@ class OrderController extends Controller {
                   }
 
                   $customer_data = (new Customer())->getCustomerByPhone($customer_phone);
+                  $companyDetails = (new Company())->getCompanyDetails();
                   
                   if($customer_data) {
                         $this->view('admin/orders/index',  [
                               'data'           => $customer_data,
+                              'companyDetails' => $companyDetails,
                               'invoice_no'     => $invoice_no,
                               'payment_method' => $payment_method,
                               'orders'         => $product_orders,
