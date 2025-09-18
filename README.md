@@ -17,13 +17,14 @@ Includes a basic **authentication system** for secure user login and session man
 
 - **User Authentication**
   - Login / Logout
-  - Role-based access (Admin & Staff)
+  - Role-based access (Admin & Customer)
 
 - **CRUD Operations**
   - Products
   - Categories
   - Admin and Staff
   - Orders
+  - Customer
 
 - **Sales Transactions**
   - Simple checkout process
@@ -49,7 +50,31 @@ Includes a basic **authentication system** for secure user login and session man
 
 ## 📦 Installation
 
-### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/archeangana/POS_SYSTEM_PROJECT.git
-cd pos-system
+## 🏁 Getting Started
+
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/archeangana/POS_SYSTEM_PROJECT.git
+    cd pos-system
+    ```
+
+2. **Import the Database**
+    - A copy of the database SQL file is included in `Core/Http`.
+    - Open **phpMyAdmin** (or your preferred MySQL tool).
+    - Create a new database (e.g., `pos_system`).
+    - Import the SQL file from:
+      ```
+      Core/Http/pos_system.sql
+      ```
+    - This will set up all tables and sample data.
+
+3. **Configure Database Connection**
+    - Edit your database credentials in the configuration file (usually found in `app/config/database.php`).
+
+4. **Run Locally**
+    - Place the project folder inside your WAMP `www` directory.
+    - Start WAMP and navigate to `http://localhost/pos-system` in your browser.
+
+---
+
+**You're ready to use the POS System!**
