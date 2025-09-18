@@ -17,7 +17,6 @@ class AdminController extends Controller {
                   'totalOrders' => $analyticsModel->getCount('orders'),
                   'totalCustomers' => $analyticsModel->getCount('customers'),
                   'totalProducts' => $analyticsModel->getCount('products'),
-                  'totalAdmins' => $analyticsModel->getCount('admins')
             ];
 
             $this->view('admin/index', ['data' => $data]);
