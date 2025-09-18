@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="col-md-3 mb-3">
                                           <label for="image" class="mb-2">Product Image:</label>   
-                                          <input id="image" type="file" name="image" class="form-control">
+                                          <input id="image" type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
                                           
                                           <?php if (!empty($data['image'])): ?>
                                                 <div class="mt-2">
@@ -65,6 +65,10 @@
                                                       <img src="/<?php echo htmlspecialchars($data['image']); ?>" alt="Current Product Image" class="img-thumbnail" style="max-width: 100px;">
                                                 </div>
                                           <?php endif; ?>
+                                          <small class="form-text text-muted">
+                                                Allowed formats: jpeg, png, webp, jpg.<br>
+                                                Maximum size: 2MB.
+                                          </small>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                           <button type="submit" name="submit" class="btn btn-success">Update</button>

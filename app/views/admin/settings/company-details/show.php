@@ -11,10 +11,6 @@
                         <input type="hidden" name='id' value="<?= htmlspecialchars($settings['id'] ?? '') ?>">
                         <div class="row d-block">
                               <div class="col-md-4 mb-3">
-                                    <label for="site_name" class="mb-2">Site Name:</label>
-                                    <input type="text" class="form-control" id="site_name" name="site_name" value="<?= htmlspecialchars($settings['site_name'] ?? '') ?>">
-                              </div>
-                              <div class="col-md-4 mb-3">
                                     <label for="company_name" class="mb-2">Company Name:</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name" value="<?= htmlspecialchars($settings['company_name'] ?? '') ?>">
                               </div>

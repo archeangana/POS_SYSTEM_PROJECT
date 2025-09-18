@@ -12,7 +12,7 @@ class Company extends Database {
             try {
                   $pdo = $this->connect();
                   if($pdo) {
-                        $query = "SELECT id, site_name, company_name, company_address FROM {$this->table} LIMIT 1";
+                        $query = "SELECT id, company_name, company_address FROM {$this->table} LIMIT 1";
                         $stmt = $pdo->prepare($query);
                         $stmt->execute();
                         return $stmt->fetch();
@@ -30,12 +30,10 @@ class Company extends Database {
                   if($pdo) {
                         $query = "UPDATE {$this->table} 
                               SET 
-                                    site_name = :site_name, 
                                     company_name = :company_name, 
                                     company_address = :company_address
                               WHERE id = :id";
                         $stmt = $pdo->prepare($query);
-                        $stmt->bindParam(':site_name', $data['site_name']);
                         $stmt->bindParam(':company_name', $data['company_name']);
                         $stmt->bindParam(':company_address', $data['company_address']);
                         $stmt->bindParam(':id', $data['id']);

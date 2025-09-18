@@ -6,8 +6,6 @@ use App\Core\Helpers\BaseUrl;
 use App\Model\Admin;
 use App\Model\Analytics;
 use App\Model\Role;
-use App\Model\Company;
-
 use App\Core\Helpers\Flash;
 
 class AdminController extends Controller {
@@ -15,10 +13,7 @@ class AdminController extends Controller {
       public function indexAction() {
             
             $analyticsModel = new Analytics();
-            $companyModel = new Company();
-            $companyDetails = $companyModel->getCompanyDetails();
             $data = [
-                  'site_name' => $companyDetails['site_name'] ?? 'POS System',
                   'totalOrders' => $analyticsModel->getCount('orders'),
                   'totalCustomers' => $analyticsModel->getCount('customers'),
                   'totalProducts' => $analyticsModel->getCount('products'),

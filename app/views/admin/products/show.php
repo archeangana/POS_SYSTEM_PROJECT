@@ -48,7 +48,7 @@
                                                       <?php endforeach; ?>
                                                       <?php else: ?>
                                                             <tr>
-                                                                  <td colspan='5' class="text-center">No Products data found.</td>
+                                                                  <td colspan='6' class="text-center">No Products data found.</td>
                                                             </tr>
                                                 <?php endif; ?>
                                           </tbody>

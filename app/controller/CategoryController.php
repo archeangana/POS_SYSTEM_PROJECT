@@ -145,7 +145,7 @@ class CategoryController extends Controller {
                   $categoryModel = new Category();
                   $categoryModel->deleteCategory($id);
                   Flash::set('success', 'Deleted Successfully!');
-                  $this->redirectToPage('category', 'shw');
+                  $this->redirectToPage('category', 'show');
                   exit();
             } else {
                   Flash::set('error', 'Failed to Delete');

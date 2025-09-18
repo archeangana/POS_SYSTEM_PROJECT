@@ -14,7 +14,6 @@ class SettingController extends Controller {
             if(empty($settings)) {
                   $settings = [
                         'id' => '',
-                        'site_name' => '',
                         'company_name' => '',
                         'company_address' => ''
                   ];
@@ -29,13 +28,8 @@ class SettingController extends Controller {
             $existingSettings = $companyModel->getCompanyDetails();
 
             // Validate input and Sanitize
-            $site_name = filter_var(trim($data['site_name']), FILTER_SANITIZE_STRING);
             $company_name = filter_var(trim($data['company_name']), FILTER_SANITIZE_STRING);
             $company_address = filter_var(trim($data['company_address']), FILTER_SANITIZE_STRING);
-
-            if(empty($site_name)) {
-                 $site_name = $existingSettings['site_name'];
-            }
 
             if(empty($company_name)) {
                   $company_name = $existingSettings['company_name'];
@@ -50,7 +44,6 @@ class SettingController extends Controller {
             if($existingSettings) {
                   $data = [
                         'id' => $existingSettings['id'],
-                        'site_name' => $site_name,
                         'company_name' => $company_name,
                         'company_address' => $company_address
                   ];
