@@ -59,20 +59,21 @@ Includes a basic **authentication system** for secure user login and session man
     ```
 
 2. **Import the Database**
-    - A copy of the database SQL file is included in `Core/Http`.
+    - A copy of the database SQL file is included in `Http`.
     - Open **phpMyAdmin** (or your preferred MySQL tool).
-    - Create a new database (e.g., `pos_system`).
+    - Create a new database (e.g., `pos_db`).
     - Import the SQL file from:
       ```
-      Core/Http/pos_system.sql
+      Http/pos_db.sql
       ```
     - This will set up all tables and sample data.
 
 3. **Configure Database Connection**
-    - Edit your database credentials in the configuration file (usually found in `app/config/database.php`).
+    - Edit your database credentials in the configuration file (usually found in `app/http/database.php`).
 
 4. **Run Locally**
     - Place the project folder inside your WAMP `www` directory.
+    - Or if you use XAMPP place the project folder inside your XAMPP `htdocs` directory.
     - Start WAMP and navigate to `http://localhost/pos-system` in your browser.
 
 ---
